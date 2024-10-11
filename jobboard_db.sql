@@ -34,6 +34,7 @@ CREATE TABLE offres_emploi (
     id_entreprise INT NOT NULL,  -- Lien vers l'entreprise
     titre VARCHAR(255) NOT NULL,
     description TEXT,
+    description_p TEXT,  -- Petite description pour l'affichage rapide
     salaire DECIMAL(10, 2),
     lieu VARCHAR(255),
     region VARCHAR(100),  -- Pour la recherche par région
