@@ -2,10 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes');
-const jobRoutes = require('./routes/jobRoutes');
-const entrepriseRoutes = require('./routes/entrepriseRoutes');
-const candidatureRoutes = require('./routes/candidatureRoutes');
+const userRoutes = require('./routes/userRoutes'); // Assurez-vous que ce chemin est correct
 
 // Initialisation du serveur
 const app = express();
@@ -14,11 +11,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Routes
-app.use('/api/users', userRoutes);
-app.use('/api/jobs', jobRoutes);
-app.use('/api/entreprises', entrepriseRoutes);
-app.use('/api/candidatures', candidatureRoutes);
+// Utilisation des routes
+app.use('/api/users', userRoutes); // Assurez-vous que cette ligne est présente
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 5000;

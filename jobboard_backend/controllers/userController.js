@@ -1,26 +1,41 @@
 // controllers/userController.js
 const db = require('../db');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 // Inscription des utilisateurs
 const registerUser = async(req, res) => {
     const { nom, prenom, email, mot_de_passe, telephone, adresse, role, id_entreprise } = req.body;
 
     try {
-        const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
-        const sql = 'INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, telephone, adresse, role, id_entreprise) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        db.query(sql, [nom, prenom, email, hashedPassword, telephone, adresse, role, id_entreprise], (err, result) => {
+        // Vérifier si l'email existe déjà
+        const checkEmailQuery = 'SELECT * FROM utilisateurs WHERE email = ?';
+        db.query(checkEmailQuery, [email], async(err, results) => {
             if (err) {
-                return res.status(500).json({ error: 'Erreur lors de l\'inscription' });
+                console.error('Erreur lors de la vérification de l\'e-mail :', err);
+                return res.status(500).json({ error: 'Erreur lors de la vérification de l\'e-mail' });
             }
-            res.json({ message: 'Inscription réussie', id: result.insertId });
+            if (results.length > 0) {
+                return res.status(400).json({ error: 'Cet e-mail est déjà utilisé' });
+            }
+
+            // Hashage du mot de passe
+            const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
+
+            // Insertion de l'utilisateur
+            const sql = 'INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, telephone, adresse, role, id_entreprise) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+            db.query(sql, [nom, prenom, email, hashedPassword, telephone, adresse, role, id_entreprise], (err, result) => {
+                if (err) {
+                    console.error('Erreur lors de l\'insertion de l\'utilisateur :', err);
+                    return res.status(500).json({ error: 'Erreur lors de l\'inscription' });
+                }
+                res.json({ message: 'Inscription réussie', id: result.insertId });
+            });
         });
     } catch (error) {
+        console.error('Erreur lors du hashage du mot de passe :', error);
         res.status(500).json({ error: 'Erreur lors du hashage du mot de passe' });
     }
 };
-
 // Connexion des utilisateurs
 const loginUser = (req, res) => {
     const { email, mot_de_passe } = req.body;
@@ -54,5 +69,44 @@ const getUserProfile = (req, res) => {
         res.json(results[0]);
     });
 };
+// Mise à jour des informations utilisateur
+const updateUser = (req, res) => {
+    const { id } = req.params; // Récupère l'ID de l'utilisateur à partir des paramètres de l'URL
+    const { nom, prenom, telephone, adresse, role, id_entreprise } = req.body;
 
-module.exports = { registerUser, loginUser, getUserProfile };
+    // Requête SQL pour mettre à jour l'utilisateur
+    const sql = `
+        UPDATE utilisateurs
+        SET nom = ?, prenom = ?, telephone = ?, adresse = ?, role = ?, id_entreprise = ?
+        WHERE id_utilisateur = ?
+    `;
+    db.query(sql, [nom, prenom, telephone, adresse, role, id_entreprise, id], (err, result) => {
+        if (err) {
+            console.error('Erreur lors de la mise à jour de l\'utilisateur :', err);
+            return res.status(500).json({ error: 'Erreur lors de la mise à jour de l\'utilisateur' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+        res.json({ message: 'Utilisateur mis à jour avec succès' });
+    });
+};
+
+// Suppression d'un utilisateur
+const deleteUser = (req, res) => {
+    const { id } = req.params; // Récupère l'ID de l'utilisateur à partir des paramètres de l'URL
+
+    // Requête SQL pour supprimer l'utilisateur
+    const sql = 'DELETE FROM utilisateurs WHERE id_utilisateur = ?';
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Erreur lors de la suppression de l\'utilisateur :', err);
+            return res.status(500).json({ error: 'Erreur lors de la suppression de l\'utilisateur' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+        res.json({ message: 'Utilisateur supprimé avec succès' });
+    });
+};
+module.exports = { registerUser, loginUser, getUserProfile, updateUser, deleteUser };
