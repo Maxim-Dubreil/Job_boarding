@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/font/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/font/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/font/Roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.Banner {
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 10pxpx;
+    border-bottom: 2px solid #ECEFF1;
+}
+.like-img {
+    padding-left: 20%;
+}
+.logo{
+width: 125px;
+height: auto;
+}
+
+.banner-button{
+    padding-right: 20%;
+    display: flex;
+    gap: 40px
+}
