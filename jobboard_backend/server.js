@@ -3,8 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
-const offreRoutes = require('./routes/offreRoutes'); // Importer les routes des offres d'emploi
-const entrepriseRoutes = require('./routes/entrepriseRoutes'); // Importer les routes des entreprises
+const offreRoutes = require('./routes/offreRoutes');
+const entrepriseRoutes = require('./routes/entrepriseRoutes');
+const candidatureRoutes = require('./routes/candidatureRoutes');
 
 // Initialisation du serveur
 const app = express();
@@ -15,8 +16,9 @@ app.use(bodyParser.json());
 
 // Utilisation des routes
 app.use('/api/users', userRoutes);
-app.use('/api/offres', offreRoutes); // Ajouter les routes pour les offres d'emploi
-app.use('/api/entreprises', entrepriseRoutes); // Ajouter les routes pour les entreprises
+app.use('/api/offres', offreRoutes);
+app.use('/api/entreprises', entrepriseRoutes);
+app.use('/api/candidatures', candidatureRoutes);
 
 // Démarrage du serveur
 const PORT = process.env.PORT || 5000;
