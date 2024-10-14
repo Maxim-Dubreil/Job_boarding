@@ -1,114 +1,123 @@
 // controllers/offreController.js
-const db = require('../db');
+const { OffreEmploi, Entreprise } = require('../models');
 
 // Créer une nouvelle offre d'emploi
-const createOffer = (req, res) => {
+const createOffer = async(req, res) => {
     const { id_entreprise, titre, description, description_p, salaire, lieu, region, type_emploi, heures_travail, mots_cles } = req.body;
 
-    const sql = `
-        INSERT INTO offres_emploi (id_entreprise, titre, description, description_p, salaire, lieu, region, type_emploi, heures_travail, mots_cles)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    db.query(sql, [id_entreprise, titre, description, description_p, salaire, lieu, region, type_emploi, heures_travail, mots_cles], (err, result) => {
-        if (err) {
-            console.error('Erreur lors de la création de l\'offre d\'emploi :', err);
-            return res.status(500).json({ error: 'Erreur lors de la création de l\'offre d\'emploi' });
-        }
-        res.json({ message: 'Offre d\'emploi créée avec succès', id: result.insertId });
-    });
+    try {
+        const newOffer = await OffreEmploi.create({
+            id_entreprise,
+            titre,
+            description,
+            description_p,
+            salaire,
+            lieu,
+            region,
+            type_emploi,
+            heures_travail,
+            mots_cles
+        });
+        res.json({ message: "Offre d'emploi créée avec succès", id: newOffer.id });
+    } catch (error) {
+        console.error("Erreur lors de la création de l'offre d'emploi :", error);
+        res.status(500).json({ error: "Erreur lors de la création de l'offre d'emploi" });
+    }
 };
 
 // Lire toutes les offres d'emploi avec possibilité de filtrer
-const getAllOffers = (req, res) => {
+const getAllOffers = async(req, res) => {
     const { mots_cles, region, type_emploi } = req.query;
 
-    let sql = `
-        SELECT o.*, e.nom_entreprise
-        FROM offres_emploi o
-        JOIN entreprises e ON o.id_entreprise = e.id_entreprise
-        WHERE 1=1
-    `;
-    const params = [];
+    const whereClause = {};
+    if (mots_cles) whereClause.mots_cles = {
+        [Op.like]: `%${mots_cles}%` };
+    if (region) whereClause.region = region;
+    if (type_emploi) whereClause.type_emploi = type_emploi;
 
-    if (mots_cles) {
-        sql += ` AND o.mots_cles LIKE ?`;
-        params.push(`%${mots_cles}%`);
+    try {
+        const offers = await OffreEmploi.findAll({
+            where: whereClause,
+            include: {
+                model: Entreprise,
+                attributes: ['nom_entreprise']
+            }
+        });
+        res.json(offers);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des offres d'emploi :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération des offres d'emploi" });
     }
-
-    if (region) {
-        sql += ` AND o.region = ?`;
-        params.push(region);
-    }
-
-    if (type_emploi) {
-        sql += ` AND o.type_emploi = ?`;
-        params.push(type_emploi);
-    }
-
-    db.query(sql, params, (err, results) => {
-        if (err) {
-            console.error('Erreur lors de la récupération des offres d\'emploi :', err);
-            return res.status(500).json({ error: 'Erreur lors de la récupération des offres d\'emploi' });
-        }
-        res.json(results);
-    });
 };
 
 // Lire une offre spécifique
-const getOffer = (req, res) => {
+const getOffer = async(req, res) => {
     const { id } = req.params;
 
-    const sql = `
-        SELECT o.*, e.nom_entreprise
-        FROM offres_emploi o
-        JOIN entreprises e ON o.id_entreprise = e.id_entreprise
-        WHERE o.id_offre = ?
-    `;
-    db.query(sql, [id], (err, results) => {
-        if (err || results.length === 0) {
-            return res.status(404).json({ error: 'Offre d\'emploi non trouvée' });
+    try {
+        const offer = await OffreEmploi.findOne({
+            where: { id },
+            include: {
+                model: Entreprise,
+                attributes: ['nom_entreprise']
+            }
+        });
+        if (!offer) {
+            return res.status(404).json({ error: "Offre d'emploi non trouvée" });
         }
-        res.json(results[0]);
-    });
+        res.json(offer);
+    } catch (error) {
+        console.error("Erreur lors de la récupération de l'offre d'emploi :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération de l'offre d'emploi" });
+    }
 };
 
 // Mettre à jour une offre d'emploi
-const updateOffer = (req, res) => {
+const updateOffer = async(req, res) => {
     const { id } = req.params;
     const { titre, description, description_p, salaire, lieu, region, type_emploi, heures_travail, mots_cles } = req.body;
 
-    const sql = `
-        UPDATE offres_emploi
-        SET titre = ?, description = ?, description_p = ?, salaire = ?, lieu = ?, region = ?, type_emploi = ?, heures_travail = ?, mots_cles = ?
-        WHERE id_offre = ?
-    `;
-    db.query(sql, [titre, description, description_p, salaire, lieu, region, type_emploi, heures_travail, mots_cles, id], (err, result) => {
-        if (err) {
-            console.error('Erreur lors de la mise à jour de l\'offre d\'emploi :', err);
-            return res.status(500).json({ error: 'Erreur lors de la mise à jour de l\'offre d\'emploi' });
+    try {
+        const [updatedRows] = await OffreEmploi.update({
+            titre,
+            description,
+            description_p,
+            salaire,
+            lieu,
+            region,
+            type_emploi,
+            heures_travail,
+            mots_cles
+        }, {
+            where: { id }
+        });
+
+        if (updatedRows === 0) {
+            return res.status(404).json({ error: "Offre d'emploi non trouvée" });
         }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Offre d\'emploi non trouvée' });
-        }
-        res.json({ message: 'Offre d\'emploi mise à jour avec succès' });
-    });
+        res.json({ message: "Offre d'emploi mise à jour avec succès" });
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour de l'offre d'emploi :", error);
+        res.status(500).json({ error: "Erreur lors de la mise à jour de l'offre d'emploi" });
+    }
 };
 
 // Supprimer une offre d'emploi
-const deleteOffer = (req, res) => {
+const deleteOffer = async(req, res) => {
     const { id } = req.params;
 
-    const sql = 'DELETE FROM offres_emploi WHERE id_offre = ?';
-    db.query(sql, [id], (err, result) => {
-        if (err) {
-            console.error('Erreur lors de la suppression de l\'offre d\'emploi :', err);
-            return res.status(500).json({ error: 'Erreur lors de la suppression de l\'offre d\'emploi' });
+    try {
+        const deletedRows = await OffreEmploi.destroy({
+            where: { id }
+        });
+        if (deletedRows === 0) {
+            return res.status(404).json({ error: "Offre d'emploi non trouvée" });
         }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Offre d\'emploi non trouvée' });
-        }
-        res.json({ message: 'Offre d\'emploi supprimée avec succès' });
-    });
+        res.json({ message: "Offre d'emploi supprimée avec succès" });
+    } catch (error) {
+        console.error("Erreur lors de la suppression de l'offre d'emploi :", error);
+        res.status(500).json({ error: "Erreur lors de la suppression de l'offre d'emploi" });
+    }
 };
 
 module.exports = {
