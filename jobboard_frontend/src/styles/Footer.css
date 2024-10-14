@@ -1,0 +1,15 @@
+    .footer {
+        background-color: #FFFFFF;
+        color: #000000;
+        padding: 20px;
+        text-align: center;
+
+            /* Ajoute un shadow pour le style a voir */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .footer-content {
+        max-width: 800px;
+        margin: auto;
+    }

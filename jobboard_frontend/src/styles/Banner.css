@@ -20,12 +20,19 @@
 }
 
 .Banner {
-    padding: 25px 0px;
+    padding: 20px 0;
+    height: 40px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #ECEFF1;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+
+    /* Ajoute un shadow pour le style a voir */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .like-img {
     padding-left: 20%;

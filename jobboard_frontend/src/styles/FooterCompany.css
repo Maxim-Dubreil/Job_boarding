@@ -1,0 +1,14 @@
+.footerCompany {
+    background-color: #34495E;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.2);
+
+
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: auto;
+}
