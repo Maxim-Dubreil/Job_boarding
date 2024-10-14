@@ -19,13 +19,13 @@
     font-style: normal;
 }
 
-.Banner {
+.BannerCompany {
+    background-color: #34495E;
     padding: 25px 0px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #ECEFF1;
 }
 .like-img {
     padding-left: 20%;
