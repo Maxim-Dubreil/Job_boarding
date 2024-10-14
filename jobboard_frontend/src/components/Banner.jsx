@@ -1,17 +1,20 @@
 import '../styles/Banner.css'
-import logoBanner from '../assets/image/2.png';
+import logoBanner from '../assets/image/logoBanner.png';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 function Banner () {
     return (
-        <header className='Banner' id="top">
+        <header className='Banner'>
+
             <div className='like-img'>
-                <a href="#top">
-                <img src={logoBanner} alt="Le super logo de Pinkedin" className="logo"/>
-                </a>
+                <Link to="/">
+                    <img src={logoBanner} alt="Le super logo de Pinkedin" className="logo"/>
+                </Link>
             </div>
+
+
 
             <div className='banner-button'>
                 <Link to="/CompanyDashboard">
@@ -26,8 +29,11 @@ function Banner () {
                             fontSize:'16px',
                             fontFamily: 'Open_sans, sans-serif',
                             fontWeight : 'bold',
+                            textDecoration : 'underline',
+                            backgroundColor : '#FFFFFF',
+
                             '&:hover': {
-                                backgroundColor: '#E0E0E0'
+                                backgroundColor: '#FFFFFF',
                             }
                         }}>
                         Recruitement access
@@ -40,7 +46,6 @@ function Banner () {
                         variant="contained"
                         size='small'
                         sx={{
-                            border: '1px solid #ECEFF1',
                             boxShadow: 'none',
                             fontSize: '16px',
                             fontFamily: 'Open_sans, sans-serif',
