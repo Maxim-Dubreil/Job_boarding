@@ -10,27 +10,16 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             id_utilisateur: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'Utilisateurs', // Référence au modèle Utilisateurs
-                    key: 'id'
-                },
-                onUpdate: 'CASCADE',
-                onDelete: 'CASCADE'
+                type: Sequelize.INTEGER
             },
             token: {
-                type: Sequelize.STRING,
-                allowNull: false
+                type: Sequelize.STRING
             },
             date_creation: {
-                type: Sequelize.DATE,
-                allowNull: false,
-                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+                type: Sequelize.DATE
             },
             date_expiration: {
-                type: Sequelize.DATE,
-                allowNull: false
+                type: Sequelize.DATE
             },
             createdAt: {
                 allowNull: false,
