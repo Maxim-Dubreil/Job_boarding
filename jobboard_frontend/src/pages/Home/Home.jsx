@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Banner from '../../components/Banner';
 import learnMore from '../../components/advert.jsx'
 import SearchBar from '../../components/SearchBar';
 import Footer from '../../components/Footer';
 import '../../styles/advert.css'
+import axios from 'axios';
+
 
 
 
@@ -102,7 +103,7 @@ export function Home(){
               )
             })
           }*/}
-        </div> 
+        </div>
 
         <div className="advert-displayed border" id="annonce"> {/* l'annonce séléctionnée à droite*/}
                  <h2 id="titre">titre de l'annonce num</h2>
@@ -110,11 +111,11 @@ export function Home(){
         </div>
 
 
-   
+
       </div>
- 
+
       <Footer />
-  
+
     </div>
 
 
