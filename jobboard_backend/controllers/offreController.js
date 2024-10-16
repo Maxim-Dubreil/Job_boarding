@@ -1,5 +1,6 @@
 // controllers/offreController.js
 const { OffreEmploi, Entreprise } = require('../models');
+const { Op } = require('sequelize');
 
 // Créer une nouvelle offre d'emploi
 const createOffer = async(req, res) => {
@@ -16,7 +17,7 @@ const createOffer = async(req, res) => {
             region,
             type_emploi,
             heures_travail,
-            mots_cles
+            mots_cles,
         });
         res.json({ message: "Offre d'emploi créée avec succès", id: newOffer.id });
     } catch (error) {
@@ -40,8 +41,9 @@ const getAllOffers = async(req, res) => {
             where: whereClause,
             include: {
                 model: Entreprise,
-                attributes: ['nom_entreprise']
-            }
+                as: 'entreprise', // Use the alias defined in the association
+                attributes: ['nom_entreprise'],
+            },
         });
         res.json(offers);
     } catch (error) {
@@ -59,8 +61,9 @@ const getOffer = async(req, res) => {
             where: { id },
             include: {
                 model: Entreprise,
-                attributes: ['nom_entreprise']
-            }
+                as: 'entreprise', // Use the alias defined in the association
+                attributes: ['nom_entreprise'],
+            },
         });
         if (!offer) {
             return res.status(404).json({ error: "Offre d'emploi non trouvée" });
@@ -87,9 +90,9 @@ const updateOffer = async(req, res) => {
             region,
             type_emploi,
             heures_travail,
-            mots_cles
+            mots_cles,
         }, {
-            where: { id }
+            where: { id },
         });
 
         if (updatedRows === 0) {
@@ -108,7 +111,7 @@ const deleteOffer = async(req, res) => {
 
     try {
         const deletedRows = await OffreEmploi.destroy({
-            where: { id }
+            where: { id },
         });
         if (deletedRows === 0) {
             return res.status(404).json({ error: "Offre d'emploi non trouvée" });
@@ -125,5 +128,5 @@ module.exports = {
     getAllOffers,
     getOffer,
     updateOffer,
-    deleteOffer
+    deleteOffer,
 };
