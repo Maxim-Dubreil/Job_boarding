@@ -18,3 +18,49 @@
     font-weight: normal;
     font-style: normal;
 }
+
+
+.border{
+    border: 10px;
+    border-color: black;
+    border: solid;
+}
+
+.annonces{
+    display: flex;
+    flex-direction: row;
+}
+.adverts{
+
+    flex: 30%;
+    height:500px;
+    overflow-y:scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    scrollbar-width: none;
+
+}
+
+.advert{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+    flex-grow: 80%;
+}
+
+.advert h3{
+
+    margin: 1px;
+}
+
+.advert .bouton{
+    align-self: flex-end;
+}
+
+
+.advert-displayed{
+    padding: 20px;
+    flex: 30%;
+}
