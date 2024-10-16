@@ -7,12 +7,17 @@ const authenticateToken = (req, res, next) => {
 
     if (!token) return res.status(401).json({ error: 'Accès refusé' });
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.status(403).json({ error: 'Token invalide' });
+    try {
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+            if (err) return res.status(403).json({ error: 'Token invalide' });
 
-        req.user = user;
-        next();
-    });
+            req.user = user;
+            next();
+        });
+    } catch (error) {
+        console.error('Erreur lors de la vérification du token :', error);
+        res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
 };
 
 module.exports = { authenticateToken };
