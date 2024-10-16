@@ -53,6 +53,8 @@ body.custom-background {
 }
 
 
+/*LOGIN*/
+
 .login-form,
 .signup-form {
     display: none; /* Cache par défaut les deux formulaires */
@@ -64,11 +66,6 @@ body.custom-background {
 
 }
 
-.signup-input-group {
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-}
 
 .login-input-group {
     display: flex;
@@ -80,11 +77,10 @@ body.custom-background {
     font-size: 14px;
 }
 
-
 .login-label {
-    margin-bottom: 7px;
+    display: block;
+    margin-bottom: 5px;
     margin-right: auto; /* Repousse l'élément vers la droite */
-
 }
 
 .login-input {
@@ -114,24 +110,75 @@ body.custom-background {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 40px;
-    margin-top: 40px;
+    margin-bottom: 20px;
+    margin-top: 50px;
 }
 
-.signup-group {
+
+/*SIGN UP*/
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.signup-form-recruiter,
+.signup-form-candidate {
+    display: none; /* Cache par défaut les deux formulaires */
+}
+
+.signup-form-recruiter,
+.signup-form-candidate {
+    display: block; /* Affiche le formulaire actif */
     display: grid;
     grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
-    gap: 20px;
+    gap: 10px;
     align-items: center;
+    padding: 10px;
+    margin: 5px;
 }
 
+
+/*modification mail*/
+.signup-input-mail {
+    grid-column: span 2;
+    width: 100%;
+}
+
+.signup-input-mail .sign-input {
+    width: 400px;
+}
+
+/*modification password*/
+.signup-input-password{
+    grid-column: span 2;
+    width: 100%;
+}
+.signup-input-password .sign-input{
+    width: 400px;
+}
+
+.sign-label {
+    display: block;
+    padding-left:7px;
+    margin-bottom: 5px;
+
+}
 .sign-input {
-    width: 200px;
-    padding: 10px;
+    width: 180px;
+    padding: 8px;
     border: 1px solid;
     border-radius: 5px;
     font-size: 14px;
     color: #000;
     background-color: #ECEFF1;
-    height: 14px;
 }
+
+.sign-input:focus{
+    outline: none;
+    border-color: #FC6EDA;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(252, 110, 218, 0.5);
+}
+
