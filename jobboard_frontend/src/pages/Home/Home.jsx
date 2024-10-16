@@ -3,12 +3,9 @@ import axios from 'axios'
 import Banner from '../../components/Banner';
 import learnMore from '../../components/advert.jsx'
 import SearchBar from '../../components/SearchBar';
-<<<<<<< HEAD
 import Footer from '../../components/Footer';
-
-=======
 import '../../styles/advert.css'
->>>>>>> arthur
+
 
 
 export function Home(){
@@ -28,16 +25,11 @@ export function Home(){
 
   return (
     <div>
-<<<<<<< HEAD
+
       <Banner />
       <SearchBar />
-      <Footer />
-=======
-      <header>
-        <Banner />
-        <SearchBar />
-      </header>
->>>>>>> arthur
+
+
 
 
 
@@ -120,6 +112,9 @@ export function Home(){
 
    
       </div>
+ 
+      <Footer />
+  
     </div>
 
 
