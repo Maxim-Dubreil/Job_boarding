@@ -35,7 +35,7 @@ module.exports = {
                 allowNull: true
             },
             role: {
-                type: Sequelize.ENUM('employé', 'recruteur'),
+                type: Sequelize.ENUM('employé', 'recruteur', 'admin'),
                 allowNull: false
             },
             id_entreprise: {

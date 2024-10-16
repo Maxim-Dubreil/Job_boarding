@@ -1,12 +1,17 @@
 'use strict';
+const bcrypt = require('bcrypt');
 
 module.exports = {
     up: async(queryInterface, Sequelize) => {
+        // Hash passwords for users and admin
+        const hashedPassword = await bcrypt.hash('password123', 10);
+        const Admin = await bcrypt.hash('adminpassword', 10);
+
         await queryInterface.bulkInsert('Utilisateurs', [{
                 nom: 'Dupont',
                 prenom: 'Jean',
                 email: 'jean.dupont@mail.com',
-                mot_de_passe: 'hashed_password',
+                mot_de_passe: hashedPassword,
                 telephone: '0123456789',
                 adresse: '123 Rue de Lyon, Paris',
                 role: 'employé',
@@ -20,7 +25,7 @@ module.exports = {
                 nom: 'Martin',
                 prenom: 'Julie',
                 email: 'julie.martin@mail.com',
-                mot_de_passe: 'hashed_password',
+                mot_de_passe: hashedPassword,
                 telephone: '0987654321',
                 adresse: '789 Boulevard de Strasbourg, Lille',
                 role: 'employé',
@@ -30,6 +35,20 @@ module.exports = {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
+            {
+                nom: 'Admin',
+                prenom: 'Super',
+                email: 'admin@jobboard.com',
+                mot_de_passe: Admin,
+                telephone: '0000000000',
+                adresse: 'Admin Office',
+                role: 'admin',
+                id_entreprise: null,
+                chemin_cv: null,
+                date_inscription: new Date(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            }
         ], {});
     },
 
