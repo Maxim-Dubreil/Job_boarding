@@ -26,30 +26,35 @@ export function Login() {
     }, []);
 
     // Handle login request
-    const loginUser = async () => {
-        try {
-            const response = await axios.post('http://localhost:5000/api/users/login', {
-                email: loginData.email,
-                mot_de_passe: loginData.password,
-            });
-            alert('Login Successful');
-            console.log(response.data);
-            // Store the token in localStorage for future authenticated requests
-            localStorage.setItem('token', response.data.token);
+const loginUser = async () => {
+    try {
+        const response = await axios.post('http://localhost:5000/api/users/login', {
+            email: loginData.email,
+            mot_de_passe: loginData.password,
+        });
+        alert('Login Successful');
+        console.log(response.data);
 
-            // Redirect user based on role
-            if (response.data.role === 'employé') {
-                navigate('/'); // Home page for employees
-            } else if (response.data.role === 'recruteur') {
-                navigate('/CompanyDashboard'); // Recruiter page for recruiters
-            } else if (response.data.role === 'admin') {
-                navigate('/admin'); // Admin page for admin users
-            }
-        } catch (error) {
-            console.error('Login failed', error);
-            alert('Login Failed: ' + error.response?.data?.error);
+        // Store the token in localStorage for future authenticated requests
+        localStorage.setItem('token', response.data.token);
+
+        // Redirect user based on role
+        const userRole = response.data.role;
+
+        if (userRole === 'employé') {
+            navigate('/', { replace: true }); // Home page for employees
+        } else if (userRole === 'recruteur') {
+            navigate('/CompanyDashboard', { replace: true }); // Recruiter page for recruiters
+        } else if (userRole === 'admin') {
+            navigate('/admin', { replace: true }); // Admin page for admin users
+        } else {
+            alert('Invalid role: ' + userRole);
         }
-    };
+    } catch (error) {
+        console.error('Login failed', error);
+        alert('Login Failed: ' + (error.response?.data?.error || 'Unknown error'));
+    }
+};
 
     // Handle signup request
     const registerUser = async () => {
@@ -91,7 +96,7 @@ export function Login() {
             }
         } catch (error) {
             console.error('Signup failed', error);
-            alert('Signup Failed: ' + error.response?.data?.error);
+            alert('Signup Failed: ' + (error.response?.data?.error || 'Unknown error'));
         }
     };
 

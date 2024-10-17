@@ -1,6 +1,6 @@
 // routes/entrepriseRoutes.js
 const express = require('express');
-const { createEntreprise, getEntrepriseById, updateEntreprise, deleteEntreprise } = require('../controllers/entrepriseController');
+const { createEntreprise, getEntrepriseById, updateEntreprise, deleteEntreprise, getAllEntreprises } = require('../controllers/entrepriseController');
 const router = express.Router();
 
 // Route pour créer une entreprise

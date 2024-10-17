@@ -36,7 +36,7 @@ const registerUser = async(req, res) => {
     }
 };
 
-// Connexion des utilisateurs
+/// Connexion des utilisateurs
 const loginUser = async(req, res) => {
     const { email, mot_de_passe } = req.body;
 
@@ -52,12 +52,13 @@ const loginUser = async(req, res) => {
         }
 
         const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ message: 'Connexion réussie', token });
+        res.json({ message: 'Connexion réussie', token, role: user.role }); // Include the role in response
     } catch (error) {
         console.error('Erreur lors de la connexion :', error);
         res.status(500).json({ error: 'Erreur lors de la connexion' });
     }
 };
+
 
 // Récupérer le profil utilisateur
 const getUserProfile = async(req, res) => {
