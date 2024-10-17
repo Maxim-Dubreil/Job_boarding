@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Banner from '../../components/Banner';
 import learnMore from '../../components/advert.jsx'
 import SearchBar from '../../components/SearchBar';
 import Footer from '../../components/Footer';
 import '../../styles/advert.css'
-import axios from 'axios';
-
 
 
 
