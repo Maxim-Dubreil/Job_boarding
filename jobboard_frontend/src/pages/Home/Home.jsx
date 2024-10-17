@@ -5,7 +5,6 @@ import SearchBar from '../../components/SearchBar';
 import Offer from "../../components/offer"
 import Footer from '../../components/Footer';
 import '../../styles/advert.css'
-import axios from 'axios';
 
 
 

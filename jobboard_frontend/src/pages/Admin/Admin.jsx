@@ -4,9 +4,6 @@ import "../../styles/AdminCss/Admin.css"
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-
-import { deepOrange, deepPurple } from '@mui/material/colors';
-
 import logoHeaderAdmin from '../../assets/image/logoBanner.png';
 
 
