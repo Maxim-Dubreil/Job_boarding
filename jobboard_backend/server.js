@@ -1,11 +1,15 @@
 // server.js
+
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
+
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
 const offreRoutes = require('./routes/offreRoutes');
 const entrepriseRoutes = require('./routes/entrepriseRoutes');
 const candidatureRoutes = require('./routes/candidatureRoutes');
+
 
 // Initialisation du serveur
 const app = express();
