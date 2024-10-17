@@ -118,12 +118,11 @@ export function Home(){
       </div> 
         
         <div className='container-displayed' id="annonce">
-            {id && <Offer num={table} entrepriseLieOffre={entrepriseOffer} />}
+            {id && <Offer num={table}  entrepriseLieOffre={entrepriseOffer} />}
             
         </div>
 
-        
-           
+  
       </div>
       <Footer />
     </div>

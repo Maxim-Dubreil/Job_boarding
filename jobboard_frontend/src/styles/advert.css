@@ -48,29 +48,40 @@
 .annonces{
     display: flex;
     flex-direction: row;
+
 }
 .adverts{
 
     flex: 30%;
     height:800px;
     overflow-y:scroll;
+    scrollbar-width: none;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    scrollbar-width: none;
+    
 
 }
 
-.advert{
+
+
+.advert,.advert-displayed{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+
+.advert{
+
     margin: 1%;
     padding: 10px;
     flex-grow: 80%;
     width: 94%;
 }
+
+
 
 
 .top-left{
@@ -131,10 +142,14 @@
 
 .container-displayed{
     flex: 50%;
+
 }
 .advert-displayed{
     margin: 0.8%;
     padding: 20px;
+    height:700px;
+    overflow-y:scroll;
+    scrollbar-width: none;
     
 
 }
