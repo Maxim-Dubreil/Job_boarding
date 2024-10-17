@@ -37,7 +37,7 @@
     overflow-y:scroll;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     scrollbar-width: none;
 
 }
@@ -48,6 +48,7 @@
     margin: 10px;
     padding: 10px;
     flex-grow: 80%;
+    width: 80%;
 }
 
 .advert h3{
@@ -63,4 +64,5 @@
 .advert-displayed{
     padding: 20px;
     flex: 30%;
+
 }
