@@ -12,6 +12,11 @@ export function Home(){
   const [id, setId] = useState(null);
   const [data, setData] = useState([])
   const [table, setTable] = useState([])
+  const [entrepriseOffer, setEntrepriseOffer] = useState([])
+
+
+
+
   useEffect(()=>{
     axios.get('http://localhost:5000/api/offres/')
     .then((res)=>{
@@ -42,12 +47,20 @@ export function Home(){
     return entrepriseData ? entrepriseData.nom_entreprise : "Nom non trouvé";
   }
 
+  const getEntrepriseId = (IdEntre) => {
+    const entrepriseData = entreprise.find(entre => entre.id === IdEntre);
+    console.log(`iei renvoie ça ${entrepriseData ? entrepriseData : {}}`)
+    return entrepriseData ? entrepriseData : {};
+  }
+
+
+
 
   const learnMore = (key) => {
   
     setTable(data[key])
     setId(data[key].id);
- 
+    setEntrepriseOffer(getEntrepriseId(data[key].id))
   }
 
 
@@ -59,8 +72,8 @@ export function Home(){
       <Banner />
       <SearchBar />
 
-      <div className="annonces border">  {/* les annonces */}
-        <div className="adverts border">  {/* toutes les annonces sur la gauhche*/}
+      <div className="annonces ">  {/* les annonces */}
+        <div className="adverts ">  {/* toutes les annonces sur la gauhche*/}
           {
           data.map((advert, index)=>{
               var num = advert.id
@@ -75,12 +88,23 @@ export function Home(){
                 <div 
                 className={`advert ${id === advert.id ? "rose" : "border"}`}
                 id={num} 
-                key={index}>
-                  <h3>{advert.titre}</h3>
-                  <h4>{NomEntrepriseId(advert.id_entreprise)}</h4>  
-                  <p>{advert.description_p}</p>
-                  <div className="bouton">
-                    <button onClick={() => {learnMore(index)}}> Learn More</button>
+                key={index}
+                onClick={() => {learnMore(index)}}>
+                  <div className='top left'>
+                    <h3>{advert.titre}</h3>
+                    <h4>{NomEntrepriseId(advert.id_entreprise)}</h4>  
+                  </div>
+                  <div className='top-right'>
+                    <h5 className='info gris lieu'>{advert.region} {advert.lieu}</h5>
+                    <h5 className='info gris'>{advert.type_emploi}</h5>
+                    <h5 className='info bleu'>{advert.salaire} €</h5>
+                    <h5 className='info gris'>{advert.heures_travail} </h5>
+                  </div>
+                  <p className='mid'>{advert.description_p}</p>
+                  <div className="bottom">
+                    <div className='bouton'>
+                      <button variant="contained"  className='learnmore' > Learn More</button>
+                    </div>
                   </div>
 
                 </div>
@@ -93,8 +117,8 @@ export function Home(){
       
       </div> 
         
-        <div className='advert-displayed border' id="annonce">
-            {id && <Offer num={table} />}
+        <div className='container-displayed' id="annonce">
+            {id && <Offer num={table} entrepriseLieOffre={entrepriseOffer} />}
             
         </div>
 

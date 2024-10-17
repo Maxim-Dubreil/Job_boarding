@@ -23,12 +23,26 @@
 .border{
     border: 50px;
     border: solid;
+    border-radius: 20px;
+}
+
+
+.learnmore{
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #FC6EDA;
+    color: #f1f1f1;
+    border : none;
+    height: 120%;
+    font-size:'18px';
+    font-Family: 'Roboto';
 }
 
 .rose{
     border: 50px;
+    border-radius: 20px;
     border: solid;
-    border-color: #E056B3;
+    border-color: #FC6EDA;
 }
 
 .annonces{
@@ -49,12 +63,62 @@
 
 .advert{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
     margin: 1%;
     padding: 10px;
     flex-grow: 80%;
     width: 94%;
 }
+
+
+.top-left{
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.top-right,.top-left{
+    flex: 10%;
+    
+    display: flex;
+}
+
+.mid,.bottom{
+    flex: 100%;
+}
+
+.top-right{
+    justify-content: space-around;
+
+}
+
+.bleu{
+    background-color: #80bfbf;
+}
+
+.gris{
+    background-color: #f1f1f1;
+}
+
+.lieu{
+    word-spacing: 1em;
+}
+
+
+.info{
+    width: auto;
+    padding-bottom: 1%;
+    padding-top: 0.7%;
+    padding-left: 2%;
+    padding-right: 2%;
+    text-align: center;
+    display: inline-block;
+    font-weight: normal;
+    height: fit-content;
+    border-radius: 10px;
+}
+
+
 
 .advert h3{
 
@@ -65,9 +129,12 @@
     align-self: flex-end;
 }
 
-
+.container-displayed{
+    flex: 50%;
+}
 .advert-displayed{
+    margin: 0.8%;
     padding: 20px;
-    flex: 30%;
+    
 
 }

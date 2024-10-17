@@ -23,6 +23,7 @@ export default class Offer extends React.Component {
             console.log("là ça return"),
             <div className='advert-displayed border' id="annonce">
             <h3>{this.props.num.titre}</h3>
+            <h4>{this.props.entrepriseLieOffre.nom_entreprise}</h4>
             <p>{this.props.num.description}</p>
             </div>
 
