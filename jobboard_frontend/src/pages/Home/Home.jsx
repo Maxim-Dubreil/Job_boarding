@@ -21,7 +21,7 @@ export function Home(){
   }, [])
 
 
-  {/*const [entreprise, setEntreprise] = useState([])
+  const [entreprise, setEntreprise] = useState([])
               
   useEffect(()=>{
     axios.get(`http://localhost:5000/api/entreprises/`)
@@ -29,7 +29,7 @@ export function Home(){
       setEntreprise(res.data)
     })
     .catch((err)=>console.log(err))
-  }, [])       */}    
+  }, [])           
 
   const learnMore = (key) => {
     console.log(data[key].id);
@@ -62,7 +62,7 @@ export function Home(){
                 id={num} 
                 key={index}>
                   <h3>{advert.titre}</h3>
-                  {/* <h4>{entreprise[advert.id -1].nom_entreprise}</h4>  */}
+                  <h4>{entreprise[index].nom_entreprise}</h4>  
                   <p>{advert.description_p}</p>
                   <div className="bouton">
                     <button onClick={() => {learnMore(index)}}> Learn More</button>
