@@ -21,9 +21,14 @@
 
 
 .border{
-    border: 10px;
-    border-color: black;
+    border: 50px;
     border: solid;
+}
+
+.rose{
+    border: 50px;
+    border: solid;
+    border-color: #E056B3;
 }
 
 .annonces{
@@ -33,7 +38,7 @@
 .adverts{
 
     flex: 30%;
-    height:500px;
+    height:800px;
     overflow-y:scroll;
     display: flex;
     flex-direction: column;
@@ -45,10 +50,10 @@
 .advert{
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 1%;
     padding: 10px;
     flex-grow: 80%;
-    width: 80%;
+    width: 94%;
 }
 
 .advert h3{

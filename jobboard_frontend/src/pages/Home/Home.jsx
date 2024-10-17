@@ -11,14 +11,7 @@ import '../../styles/advert.css';
 export function Home(){
   const [id, setId] = useState(null);
   const [data, setData] = useState([])
-
-  const learnMore = (idoffre) => {
-    console.log(idoffre);
-    setId(data[idoffre -1]);
-    console.log(id);
-  }
-
-
+  const [table, setTable] = useState([])
   useEffect(()=>{
     axios.get('http://localhost:5000/api/offres/')
     .then((res)=>{
@@ -27,9 +20,26 @@ export function Home(){
     .catch((err)=>console.log(err))
   }, [])
 
-  const HandleClick = (e)=>{
-    console.log("salut")
+
+  {/*const [entreprise, setEntreprise] = useState([])
+              
+  useEffect(()=>{
+    axios.get(`http://localhost:5000/api/entreprises/`)
+    .then((res)=>{
+      setEntreprise(res.data)
+    })
+    .catch((err)=>console.log(err))
+  }, [])       */}    
+
+  const learnMore = (key) => {
+    console.log(data[key].id);
+    setTable(data[key])
+    setId(data[key].id);
+ 
   }
+
+
+
 
   return (
     <div>
@@ -38,15 +48,24 @@ export function Home(){
       <SearchBar />
 
       <div className="annonces border">  {/* les annonces */}
-        <div className="adverts  border">  {/* toutes les annonces sur la gauhche*/}
+        <div className="adverts border">  {/* toutes les annonces sur la gauhche*/}
           {
           data.map((advert, index)=>{
+              var num = advert.id
+              
+              
+
+              
               return (
-                <div class="advert border" key={index}>
+                <div 
+                className={`advert ${id === advert.id ? "rose" : "border"}`}
+                id={num} 
+                key={index}>
                   <h3>{advert.titre}</h3>
+                  {/* <h4>{entreprise[advert.id -1].nom_entreprise}</h4>  */}
                   <p>{advert.description_p}</p>
-                  <div class="bouton">
-                    <button onClick={() => {setId(parseInt(advert.id,"10"));  learnMore(advert.id)}}> Learn More</button>
+                  <div className="bouton">
+                    <button onClick={() => {learnMore(index)}}> Learn More</button>
                   </div>
 
                 </div>
@@ -69,7 +88,7 @@ export function Home(){
       </div> 
         
         <div className='advert-displayed border' id="annonce">
-            {id && <Offer num={id} />}
+            {id && <Offer num={table} />}
             
         </div>
 
@@ -78,5 +97,7 @@ export function Home(){
       </div>
       <Footer />
     </div>
+  
   )
+
 }
