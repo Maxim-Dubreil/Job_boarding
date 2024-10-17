@@ -57,6 +57,7 @@ export default class App extends React.Component {
 
 
 }
+
 const learnMore = (num) => {
     const elt = document.querySelector(".advert-displayed");
     elt.replaceChild("<h2>{num}</h2>");
