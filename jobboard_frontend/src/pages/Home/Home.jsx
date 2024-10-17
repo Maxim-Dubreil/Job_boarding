@@ -21,7 +21,7 @@ export function Home(){
   }, [])
 
 
-  {/*const [entreprise, setEntreprise] = useState([])
+  const [entreprise, setEntreprise] = useState([])
               
   useEffect(()=>{
     axios.get(`http://localhost:5000/api/entreprises/`)
@@ -29,10 +29,22 @@ export function Home(){
       setEntreprise(res.data)
     })
     .catch((err)=>console.log(err))
-  }, [])       */}    
+  }, [])           
+
+
+
+
+
+
+  const NomEntrepriseId = (IdEntre) => {
+    const entrepriseData = entreprise.find(entre => entre.id === IdEntre);
+    console.log(`iei renvoie ça ${entrepriseData ? entrepriseData.nom_entreprise : "Nom non trouvé"}`)
+    return entrepriseData ? entrepriseData.nom_entreprise : "Nom non trouvé";
+  }
+
 
   const learnMore = (key) => {
-    console.log(data[key].id);
+  
     setTable(data[key])
     setId(data[key].id);
  
@@ -52,6 +64,9 @@ export function Home(){
           {
           data.map((advert, index)=>{
               var num = advert.id
+              console.log(entreprise)
+              console.log(`index dans data.map : ${index}`)
+
               
               
 
@@ -62,7 +77,7 @@ export function Home(){
                 id={num} 
                 key={index}>
                   <h3>{advert.titre}</h3>
-                  {/* <h4>{entreprise[advert.id -1].nom_entreprise}</h4>  */}
+                  <h4>{NomEntrepriseId(advert.id_entreprise)}</h4>  
                   <p>{advert.description_p}</p>
                   <div className="bouton">
                     <button onClick={() => {learnMore(index)}}> Learn More</button>
@@ -72,16 +87,7 @@ export function Home(){
               )
             })
 }
-        <div className="advert border">
-            <h3>Titre de l'offre</h3>
-            <p>petite description de l'annonce mais genre un peu plus grand pour voir la taille que ça pourrait prendre sur la page pour se donner une idée un peu en gor sgenre </p>
-            <div className="bouton">
-            <button className="learnMore" data-id="1" onClick={() => learnMore("1")}>Learn More</button>
-            </div> 
 
-            
-
-        </div>
 
 
       
