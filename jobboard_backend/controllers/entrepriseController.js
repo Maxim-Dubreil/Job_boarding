@@ -36,6 +36,17 @@ const getEntrepriseById = async(req, res) => {
         res.status(500).json({ error: 'Erreur lors de la récupération de l\'entreprise' });
     }
 };
+// Récupérer toutes les entreprises
+const getAllEntreprises = async(req, res) => {
+    try {
+        const entreprises = await Entreprise.findAll();
+        res.json(entreprises);
+    } catch (err) {
+        console.error('Erreur lors de la récupération des entreprises :', err);
+        res.status(500).json({ error: 'Erreur lors de la récupération des entreprises' });
+    }
+};
+
 
 // Mettre à jour les informations d'une entreprise
 const updateEntreprise = async(req, res) => {
@@ -86,4 +97,5 @@ module.exports = {
     getEntrepriseById,
     updateEntreprise,
     deleteEntreprise,
+    getAllEntreprises
 };

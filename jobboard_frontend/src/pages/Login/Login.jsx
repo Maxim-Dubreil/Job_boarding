@@ -87,7 +87,7 @@ export function Login() {
             if (signupData.role === 'candidate') {
                 navigate('/'); // Home page for employees
             } else if (signupData.role === 'recruiter') {
-                navigate('/recruiter'); // Recruiter page for recruiters
+                navigate('/CompanyDashboard'); // Recruiter page for recruiters
             }
         } catch (error) {
             console.error('Signup failed', error);

@@ -15,4 +15,7 @@ router.put('/:id', updateEntreprise);
 // Route pour supprimer une entreprise
 router.delete('/:id', deleteEntreprise);
 
+// Récupérer toutes les entreprises
+router.get('/', getAllEntreprises);
+
 module.exports = router;
