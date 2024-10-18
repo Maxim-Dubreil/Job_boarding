@@ -45,7 +45,7 @@
     font-size: 150%;
 }
 .description{
-    border-top: 1px;
+    border-top: 0.5px;
     border-top: solid;
     flex: 100%;
     white-space: pre-line; 
@@ -58,7 +58,7 @@
 }
 
 .gris{
-    background-color: #f1f1f1;
+    background-color: #c1b4b4;
 }
 
 .lieu{
