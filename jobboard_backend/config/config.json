@@ -1,9 +1,9 @@
 {
     "development": {
         "username": "root",
-        "password": "AbdouSuper",
+        "password": "",
         "database": "jobboard_db",
-        "host": "10.19.255.75",
+        "host": "127.0.0.1",
         "dialect": "mysql"
     },
     "test": {
