@@ -1,6 +1,6 @@
 // routes/offreRoutes.js
 const express = require('express');
-const { createOffer, getAllOffers, getOffer, updateOffer, deleteOffer } = require('../controllers/offreController');
+const { createOffer, getAllOffers, getOffer, updateOffer, deleteOffer, getAllEntrepriseOffers } = require('../controllers/offreController');
 const router = express.Router();
 
 // Route pour créer une nouvelle offre d'emploi
@@ -17,5 +17,8 @@ router.put('/:id', updateOffer);
 
 // Route pour supprimer une offre d'emploi
 router.delete('/:id', deleteOffer);
+
+// Route pour obtenir toutes les offres d'emploi
+router.get('/entreprise/:id_entreprise', getAllEntrepriseOffers);
 
 module.exports = router;

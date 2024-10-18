@@ -28,13 +28,14 @@ const createOffer = async(req, res) => {
 
 // Lire toutes les offres d'emploi avec possibilité de filtrer
 const getAllOffers = async(req, res) => {
-    const { mots_cles, region, type_emploi } = req.query;
+    const { mots_cles, region, type_emploi, id_entreprise } = req.query;
 
     const whereClause = {};
     if (mots_cles) whereClause.mots_cles = {
         [Op.like]: `%${mots_cles}%` };
     if (region) whereClause.region = region;
     if (type_emploi) whereClause.type_emploi = type_emploi;
+    if (id_entreprise) whereClause.id_entreprise = id_entreprise;
 
     try {
         const offers = await OffreEmploi.findAll({
@@ -54,6 +55,7 @@ const getAllOffers = async(req, res) => {
 
 // Lire une offre spécifique
 const getOffer = async(req, res) => {
+    console.log(req.params)
     const { id } = req.params;
 
     try {
@@ -123,10 +125,39 @@ const deleteOffer = async(req, res) => {
     }
 };
 
+
+// Lire toutes les offres d'emploi d'une certaines entreprise
+const getAllEntrepriseOffers = async(req, res) => {
+    console.log(`voici req.params ${req.params}`)
+    const { id_entreprise } = req.params;
+
+
+
+    try {
+        const offers = await OffreEmploi.findAll({
+            where: {id_entreprise},
+            include: {
+                model: Entreprise,
+                as: 'entreprise', // Use the alias defined in the association
+                attributes: ['nom_entreprise'],
+            },
+        });
+        res.json(offers);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des offres d'emploi :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération des offres d'emploi" });
+    }
+};
+
+
+
+
+
 module.exports = {
     createOffer,
     getAllOffers,
     getOffer,
     updateOffer,
     deleteOffer,
+    getAllEntrepriseOffers
 };
