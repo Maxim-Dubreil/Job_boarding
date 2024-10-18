@@ -1,0 +1,173 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/font/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open_Sans';
+    src: url('../assets/font/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../assets/font/Roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.border{
+    border-width: 0.1mm;
+    border: solid;
+    border-radius: 20px;
+    border-color: #c1b4b4;
+}
+
+
+.rose{
+    border: thick double;
+    border-radius: 20px;
+    border: dashed;
+    border-color: #FC6EDA;
+}
+
+
+.rose,.border{
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 255 ,0.2);
+}
+
+
+.learnmore{
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #FC6EDA;
+    color: #f1f1f1;
+    border : none;
+    height: 120%;
+    font-size:'18px';
+    font-Family: 'Roboto';
+}
+
+.annonces{
+    margin-left: 10%;
+    margin-top: 20%;
+    margin-right: 10%;
+    max-height: 800px;
+    display: flex;   
+    justify-content: center;
+    flex-direction: row;
+
+}
+.adverts{
+    margin-left: -1%;
+    flex: 30%;
+    height: 800px;
+    overflow-y:scroll;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    
+
+}
+
+
+
+.advert,.advert-displayed{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+.advert{
+
+    margin-bottom: 4%;
+    padding: 10px;
+    flex-grow: 80%;
+    width: 94%;
+}
+
+
+
+
+.top-left{
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+p{
+    text-align: left;
+}
+.top-right,.top-left{
+    flex: 10%;
+    
+    display: flex;
+}
+
+.mid,.bottom{
+    flex: 100%;
+}
+
+.top-right{
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+
+.bleu{
+    background-color: #80bfbf;
+}
+
+.gris{
+    background-color: #c1b4b4;
+}
+
+.lieu{
+    word-spacing: 1em;
+}
+
+
+.info{
+    width: auto;
+    padding-bottom: 1%;
+    padding-top: 0.7%;
+    padding-left: 2%;
+    padding-right: 2%;
+    text-align: center;
+    display: inline-block;
+    font-weight: normal;
+    height: fit-content;
+    border-radius: 10px;
+}
+
+
+
+.advert h3{
+
+    margin: 1px;
+}
+
+.advert .bouton{
+    align-self: flex-end;
+}
+
+.container-displayed{
+    flex: 50%;
+
+}
+.advert-displayed{
+    margin: 0.8%;
+    margin-top: 0%;
+    padding: 20px;
+    max-height:800px;
+    overflow-y:scroll;
+    scrollbar-width: none;
+    
+
+}
