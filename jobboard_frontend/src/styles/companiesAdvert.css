@@ -40,11 +40,19 @@
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 255 ,0.2);
 }
 
+.hide{
+    display: none;
+}
 
-.learnmore{
+.flex{
+    display: flex;
+}
+.learnmore,.view, .hide{
     border-radius: 10px;
+    margin-left: 1%;
+    margin-right: 1%;
     cursor: pointer;
-    background-color: #FC6EDA;
+
     color: #f1f1f1;
     border : none;
     height: 120%;
@@ -52,12 +60,26 @@
     font-Family: 'Roboto';
 }
 
+.learnmore{
+    background-color: #FC6EDA;
+}
+
+.view{
+    background-color: #34495E;
+}
+
+.hide{
+    justify-self: center;
+    align-self: center;
+}
+
 .annonces{
     margin-left: 10%;
     margin-top: 20%;
     margin-right: 10%;
     max-height: 800px;
-    display: flex;   
+
+      
     justify-content: center;
     flex-direction: row;
 
@@ -75,10 +97,13 @@
 
 }
 
+.local{
+    flex: 100%;
+}
 
 
 .advert,.advert-displayed{
-    display: flex;
+ 
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -86,7 +111,7 @@
 
 
 .advert{
-
+    height: auto;
     margin-bottom: 4%;
     padding: 10px;
     flex-grow: 80%;
@@ -170,4 +195,20 @@ p{
     scrollbar-width: none;
     
 
+}
+
+
+.apply{
+    height: fit-content;
+    width: fit-content;
+    font-size: 100%;
+    padding: 2%;
+    font-weight: bold;
+    justify-self: flex-end;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #FC6EDA;
+    color: #f1f1f1;
+    border : none;
+    font-Family: 'Roboto';
 }

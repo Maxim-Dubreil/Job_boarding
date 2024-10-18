@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
+import FormApply from '../../components/FormApply';
 import Offer from "../../components/offer";
 import Footer from '../../components/Footer';
 import '../../styles/advert.css';
@@ -12,6 +13,7 @@ export function Home() {
   const [entreprise, setEntreprise] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [entrepriseOffer, setEntrepriseOffer] = useState({});
+  const [detail, setDetail] = useState(false); // gère quel partie du site est affiché à droite
 
   const [what, setWhat] = useState(''); // Search by title/keywords
   const [where, setWhere] = useState(''); // Search by location
@@ -49,8 +51,14 @@ export function Home() {
   // Handle "Learn More" click
   const learnMore = (index) => {
     setSelectedOffer(filteredOffers[index]);
+    setDetail(true)
     setEntrepriseOffer(getEntrepriseById(filteredOffers[index].id_entreprise));
   };
+
+
+  const showDetail = ()=>{
+    setDetail(false)
+  }
 
   // Handle search input changes
   const handleSearch = () => {
@@ -103,7 +111,7 @@ export function Home() {
           ))}
         </div>
 
-        <div className='container-displayed' id="annonce">
+        <div className={`container-displayed ${detail? "hide":"flex"}`} id="annonce">
           {selectedOffer && (
             <Offer 
               num={selectedOffer}
@@ -111,6 +119,14 @@ export function Home() {
             />
           )}
         </div>
+        <div className={`container-displayed ${detail? "flex":"hide"}`} id="annonce">
+          {selectedOffer && (
+            <FormApply 
+              num={selectedOffer}
+            />
+          )}
+        </div>
+
       </div>
 
       <Footer />
