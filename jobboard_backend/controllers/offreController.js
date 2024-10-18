@@ -56,7 +56,6 @@ const getAllOffers = async(req, res) => {
 
 // Lire une offre spécifique
 const getOffer = async(req, res) => {
-    console.log(req.params)
     const { id } = req.params;
 
     try {
