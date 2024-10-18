@@ -1,84 +1,47 @@
-import '../styles/BannerCompany.css'
+import '../styles/BannerCompany.css';
 import logoCompany from '../assets/image/logoCompany.png';
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext3';
 
 function BannerCompany() {
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-    const [userRole, setUserRole] = React.useState('');
-
-    React.useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
-        if (token) {
-            const user = JSON.parse(atob(token.split('.')[1])); // Decode JWT to get user info
-            setUserRole(user.role);
-        }
-    }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-        navigate('/');
-    };
+    const { user, logout } = React.useContext(AuthContext);
 
     return (
         <header className='BannerCompany' id="top">
             <div className='like-img'>
-                <Link to={userRole === 'recruteur' ? "/CompanyDashboard" : "/"}>
+                <Link to={user && user.role === 'recruteur' ? "/CompanyDashboard" : "/"}>
                     <img src={logoCompany} alt="Le super logo de Pinkedin" className="logo" />
                 </Link>
             </div>
 
             <div className='banner-button'>
-                {userRole === 'recruteur' ? (
-                    <Link to="/CompanyDashboard">
-                        <Button
-                            className='but-dashboard'
-                            variant="text"
-                            size='small'
-                            sx={{
-                                borderRadius: '15px',
-                                color: '#FFFFFF',
-                                textTransform: 'none',
-                                fontSize: '16px',
-                                fontFamily: 'Open_sans, sans-serif',
-                                fontWeight: 'bold',
-                                textDecoration: 'underline',
-                                '&:hover': {
-                                    backgroundColor: 'none'
-                                }
-                            }}>
-                            Company Dashboard
-                        </Button>
-                    </Link>
-                ) : (
-                    <Link to="/">
-                        <Button
-                            className='but-offers'
-                            variant="text"
-                            size='small'
-                            sx={{
-                                borderRadius: '15px',
-                                color: '#FFFFFF',
-                                textTransform: 'none',
-                                fontSize: '16px',
-                                fontFamily: 'Open_sans, sans-serif',
-                                fontWeight: 'bold',
-                                textDecoration: 'underline',
-                                '&:hover': {
-                                    backgroundColor: 'none'
-                                }
-                            }}>
-                            View offers
-                        </Button>
-                    </Link>
-                )}
-
-                {isLoggedIn ? (
+                {user ? (
                     <>
+                        {user.role === 'recruteur' && (
+                            <Link to="/CompanyDashboard">
+                                <Button
+                                    className='but-dashboard'
+                                    variant="text"
+                                    size='small'
+                                    sx={{
+                                        borderRadius: '15px',
+                                        color: '#FFFFFF',
+                                        textTransform: 'none',
+                                        fontSize: '16px',
+                                        fontFamily: 'Open_sans, sans-serif',
+                                        fontWeight: 'bold',
+                                        textDecoration: 'underline',
+                                        '&:hover': {
+                                            backgroundColor: 'none'
+                                        }
+                                    }}>
+                                    Company Dashboard
+                                </Button>
+                            </Link>
+                        )}
                         <Link to="/profile">
                             <Button
                                 className='but-profile'
@@ -103,7 +66,10 @@ function BannerCompany() {
                             className='but-logout'
                             variant="contained"
                             size='small'
-                            onClick={handleLogout}
+                            onClick={() => {
+                                logout();
+                                navigate('/');
+                            }}
                             sx={{
                                 boxShadow: 'none',
                                 fontSize: '16px',
@@ -146,4 +112,4 @@ function BannerCompany() {
     );
 }
 
-export default BannerCompany
+export default BannerCompany;
