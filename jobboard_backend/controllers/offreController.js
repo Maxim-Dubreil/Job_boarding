@@ -125,25 +125,8 @@ const deleteOffer = async(req, res) => {
         res.status(500).json({ error: "Erreur lors de la suppression de l'offre d'emploi" });
     }
 };
-// Lire toutes les offres d'une entreprise spécifique
-const getOffersByCompanyId = async(req, res) => {
-    const { companyId } = req.params;
 
-    try {
-        const offers = await OffreEmploi.findAll({
-            where: { id_entreprise: companyId },
-            include: {
-                model: Entreprise,
-                as: 'entreprise', // Use the alias defined in the association
-                attributes: ['nom_entreprise'],
-            },
-        });
-        res.json(offers);
-    } catch (error) {
-        console.error("Erreur lors de la récupération des offres d'emploi de l'entreprise :", error);
-        res.status(500).json({ error: "Erreur lors de la récupération des offres d'emploi de l'entreprise" });
-    }
-};
+
 
 // Lire toutes les offres d'emploi d'une certaines entreprise
 const getAllEntrepriseOffers = async(req, res) => {
@@ -174,5 +157,5 @@ module.exports = {
     getOffer,
     updateOffer,
     deleteOffer,
-    getOffersByCompanyId, // Add the new function here
+    getAllEntrepriseOffers, // Add the new function here
 };

@@ -6,7 +6,7 @@ const {
     getOffer,
     updateOffer,
     deleteOffer,
-    getOffersByCompanyId // Ensure spelling is consistent
+    getAllEntrepriseOffers
 } = require('../controllers/offreController');
 const { authenticateToken, checkRole } = require('../middleware/authMiddleware');
 const router = express.Router();
@@ -21,6 +21,6 @@ router.put('/:id', authenticateToken, checkRole('recruteur'), updateOffer); // U
 router.delete('/:id', authenticateToken, checkRole('recruteur'), deleteOffer); // Delete a job offer
 
 // Route pour obtenir toutes les offres d'emploi d'une entreprise (Get all job offers of a specific company)
-router.get('/entreprise/:id_entreprise', getOffersByCompanyId);
+router.get('/entreprise/:id_entreprise', getAllEntrepriseOffers);
 
 module.exports = router;
