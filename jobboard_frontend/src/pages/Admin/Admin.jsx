@@ -5,11 +5,14 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import logoHeaderAdmin from '../../assets/image/logoBanner.png';
-
+import Dashboard from '../../components/AdminComponents/Dashboard';
+import Users from '../../components/AdminComponents/Users';
+import Joboffers from '../../components/AdminComponents/Joboffers';
+import Company from '../../components/AdminComponents/Company';
 
 export function Admin () {
 
-    const [activeSection, setActiveSection] = useState ('true');
+    const [activeSection, setActiveSection] = useState ('Dashboard');
 
     return (
         <div className='admin-page'>
@@ -33,7 +36,7 @@ export function Admin () {
                 <div className='admin-sidebar-button'>
                     <Button
                         variant='contained'
-                        // onClick={() => setIsLogin(true)}
+                        onClick={() => setActiveSection('Dashboard')}
                         size='small'
                         sx={{
                             width: '100px',
@@ -51,7 +54,7 @@ export function Admin () {
                     </Button>
                     <Button
                         variant='contained'
-                        // onClick={() => setIsLogin(true)}
+                        onClick={() => setActiveSection('JobOffers')}
                         size='small'
                         sx={{
                             width: '100px',
@@ -69,7 +72,7 @@ export function Admin () {
                     </Button>
                     <Button
                         variant='contained'
-                        // onClick={() => setIsLogin(true)}
+                        onClick={() => setActiveSection('Company')}
                         size='small'
                         sx={{
                             width: '100px',
@@ -87,7 +90,7 @@ export function Admin () {
                     </Button>
                     <Button
                         variant='contained'
-                        // onClick={() => setIsLogin(true)}
+                        onClick={() => setActiveSection('Users')}
                         size='small'
                         sx={{
                             width: '100px',
@@ -104,6 +107,14 @@ export function Admin () {
                         Users
                     </Button>
                 </div>
+            </div>
+
+            <div className='admin-content'>
+                {activeSection === 'Dashboard' && <Dashboard />}
+                {activeSection === 'JobOffers' && <Joboffers />}
+                {activeSection === 'Company' && <Company/>}
+                {activeSection === 'Users' && <Users />}
+
             </div>
         </div>
     )
