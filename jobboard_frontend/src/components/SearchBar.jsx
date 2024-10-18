@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/SearchBar.css';
 import SearchIcon from '@mui/icons-material/Search';
 
-function SearchBar() {
-  const [what, setWhat] = useState('');
-  const [where, setWhere] = useState('');
+function SearchBar({ what, setWhat, where, setWhere, handleSearch }) {
   const navigate = useNavigate();
-
-  const handleSearch = () => {
-    // Redirect to a search result page or filter job offers in Home based on the search query
-    navigate('/', { state: { what, where } });
-  };
 
   return (
     <div className="search-bar">
