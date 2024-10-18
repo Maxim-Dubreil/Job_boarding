@@ -6,6 +6,7 @@ module.exports = {
         // Hash passwords for users and admin
         const userHashedPassword = await bcrypt.hash('password123', 10);
         const adminHashedPassword = await bcrypt.hash('adminpassword', 10);
+        const admin2HashedPassword = await bcrypt.hash('KING', 10);
 
         await queryInterface.bulkInsert('Utilisateurs', [{
                 nom: 'Dupont',
@@ -39,6 +40,20 @@ module.exports = {
                 nom: 'Admin',
                 prenom: 'Super',
                 email: 'admin@jobboard.com',
+                mot_de_passe: admin2HashedPassword,
+                telephone: '0000000000',
+                adresse: 'Admin Office',
+                role: 'admin',
+                id_entreprise: null,
+                chemin_cv: null,
+                date_inscription: new Date(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                nom: 'KING',
+                prenom: 'KING',
+                email: 'KING@GMAIL.COM',
                 mot_de_passe: adminHashedPassword,
                 telephone: '0000000000',
                 adresse: 'Admin Office',

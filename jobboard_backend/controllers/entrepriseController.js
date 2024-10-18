@@ -97,5 +97,6 @@ module.exports = {
     getEntrepriseById,
     updateEntreprise,
     deleteEntreprise,
-    getAllEntreprises
+    getAllEntreprises,
+
 };

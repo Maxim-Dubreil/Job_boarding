@@ -1,22 +1,18 @@
 // routes/userRoutes.js
 const express = require('express');
 const { registerUser, loginUser, getUserProfile, updateUser, deleteUser } = require('../controllers/userController');
-const { authenticateToken } = require('../middleware/authMiddleware');
+const { authenticateToken, checkRole } = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Route pour l'inscription des utilisateurs (aucune authentification nécessaire)
+// Routes publiques
 router.post('/register', registerUser);
-
-// Route pour la connexion des utilisateurs (aucune authentification nécessaire)
 router.post('/login', loginUser);
 
-// Route pour obtenir le profil utilisateur - Protégée par JWT
+// Routes protégées
 router.get('/profile/:id', authenticateToken, getUserProfile);
-
-// Route pour mettre à jour les informations d'un utilisateur - Protégée par JWT
 router.put('/:id', authenticateToken, updateUser);
 
-// Route pour supprimer un utilisateur - Protégée par JWT
-router.delete('/:id', authenticateToken, deleteUser);
+// Suppression réservée aux admins
+router.delete('/:id', authenticateToken, checkRole('admin'), deleteUser);
 
 module.exports = router;

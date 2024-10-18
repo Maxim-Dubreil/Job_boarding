@@ -20,9 +20,9 @@ export default class Offer extends React.Component {
 
 
     render() {
-        console.log(this.props.num.description)
+
         return (
-            console.log("là ça return"),
+         
             <div className='advert-displayed border' id="annonce">
                 <div className="top-left">    
                     <h3 className="titre">{this.props.num.titre}</h3>

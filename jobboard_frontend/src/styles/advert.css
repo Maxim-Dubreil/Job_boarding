@@ -21,9 +21,23 @@
 
 
 .border{
-    border: 50px;
+    border-width: 0.1mm;
     border: solid;
     border-radius: 20px;
+    border-color: #c1b4b4;
+}
+
+
+.rose{
+    border: thick double;
+    border-radius: 20px;
+    border: dashed;
+    border-color: #FC6EDA;
+}
+
+
+.rose,.border{
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 255 ,0.2);
 }
 
 
@@ -38,22 +52,19 @@
     font-Family: 'Roboto';
 }
 
-.rose{
-    border: 50px;
-    border-radius: 20px;
-    border: solid;
-    border-color: #FC6EDA;
-}
-
 .annonces{
-    display: flex;
+    margin-left: 10%;
+    margin-right: 10%;
+    max-height: 800px;
+    display: flex;   
+    justify-content: center;
     flex-direction: row;
 
 }
 .adverts{
-
+    margin-left: -1%;
     flex: 30%;
-    height:800px;
+    height: 800px;
     overflow-y:scroll;
     scrollbar-width: none;
     display: flex;
@@ -75,7 +86,7 @@
 
 .advert{
 
-    margin: 1%;
+    margin-bottom: 4%;
     padding: 10px;
     flex-grow: 80%;
     width: 94%;
@@ -88,6 +99,10 @@
     flex-direction: column;
     flex-wrap: wrap;
 }
+
+p{
+    text-align: left;
+}
 .top-right,.top-left{
     flex: 10%;
     
@@ -99,6 +114,7 @@
 }
 
 .top-right{
+    flex-wrap: wrap;
     justify-content: space-around;
 
 }
@@ -108,7 +124,7 @@
 }
 
 .gris{
-    background-color: #f1f1f1;
+    background-color: #c1b4b4;
 }
 
 .lieu{
@@ -146,8 +162,9 @@
 }
 .advert-displayed{
     margin: 0.8%;
+    margin-top: 0%;
     padding: 20px;
-    height:700px;
+    max-height:800px;
     overflow-y:scroll;
     scrollbar-width: none;
     

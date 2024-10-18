@@ -1,21 +1,26 @@
 // routes/offreRoutes.js
 const express = require('express');
-const { createOffer, getAllOffers, getOffer, updateOffer, deleteOffer } = require('../controllers/offreController');
+const {
+    createOffer,
+    getAllOffers,
+    getOffer,
+    updateOffer,
+    deleteOffer,
+    getAllEntrepriseOffers
+} = require('../controllers/offreController');
+const { authenticateToken, checkRole } = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Route pour créer une nouvelle offre d'emploi
-router.post('/', createOffer);
+// Routes ouvertes au public
+router.get('/', getAllOffers); // Get all job offers
+router.get('/:id', getOffer); // Get a specific job offer by ID
 
-// Route pour obtenir toutes les offres d'emploi
-router.get('/', getAllOffers);
+// Routes protégées - recruteur uniquement (Protected routes for recruiters only)
+router.post('/', authenticateToken, checkRole('recruteur'), createOffer); // Create a new job offer
+router.put('/:id', authenticateToken, checkRole('recruteur'), updateOffer); // Update an existing job offer
+router.delete('/:id', authenticateToken, checkRole('recruteur'), deleteOffer); // Delete a job offer
 
-// Route pour obtenir une offre spécifique
-router.get('/:id', getOffer);
-
-// Route pour mettre à jour une offre d'emploi
-router.put('/:id', updateOffer);
-
-// Route pour supprimer une offre d'emploi
-router.delete('/:id', deleteOffer);
+// Route pour obtenir toutes les offres d'emploi d'une entreprise (Get all job offers of a specific company)
+router.get('/entreprise/:id_entreprise', getAllEntrepriseOffers);
 
 module.exports = router;
