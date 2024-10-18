@@ -1,14 +1,14 @@
 import '../../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import logoLogin from '../../assets/image/logoBanner.png';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Button from '@mui/material/Button';
 import * as React from 'react';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Typography } from '@mui/material';
 import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext3';
 
 export function Login() {
-
     const [isLogin, setIsLogin] = useState(true);
     const [role, setRole] = useState(true);
     const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -17,6 +17,7 @@ export function Login() {
         companyName: '', businessSector: '', siteWeb: '', phoneCompany: '', emailCompany: '', companyDescription: ''
     });
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     useEffect(() => {
         document.body.classList.add('custom-background');
@@ -26,35 +27,31 @@ export function Login() {
     }, []);
 
     // Handle login request
-const loginUser = async () => {
-    try {
-        const response = await axios.post('http://localhost:5000/api/users/login', {
-            email: loginData.email,
-            mot_de_passe: loginData.password,
-        });
-        alert('Login Successful');
-        console.log(response.data);
+    const loginUser = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/users/login', {
+                email: loginData.email,
+                mot_de_passe: loginData.password,
+            });
 
-        // Store the token in localStorage for future authenticated requests
-        localStorage.setItem('token', response.data.token);
+            // Use AuthContext to store user data
+            login(response.data);
 
-        // Redirect user based on role
-        const userRole = response.data.role;
+            // Redirect user based on role
+            const userRole = response.data.role;
 
-        if (userRole === 'employé') {
-            navigate('/', { replace: true }); // Home page for employees
-        } else if (userRole === 'recruteur') {
-            navigate('/CompanyDashboard', { replace: true }); // Recruiter page for recruiters
-        } else if (userRole === 'admin') {
-            navigate('/admin', { replace: true }); // Admin page for admin users
-        } else {
-            alert('Invalid role: ' + userRole);
+            if (userRole === 'employé') {
+                navigate('/', { replace: true });
+            } else if (userRole === 'recruteur') {
+                navigate('/CompanyDashboard', { replace: true });
+            } else if (userRole === 'admin') {
+                navigate('/Admin', { replace: true });
+            }
+        } catch (error) {
+            console.error('Login failed', error);
+            alert('Login Failed: ' + (error.response?.data?.error || 'Unknown error'));
         }
-    } catch (error) {
-        console.error('Login failed', error);
-        alert('Login Failed: ' + (error.response?.data?.error || 'Unknown error'));
-    }
-};
+    };
 
     // Handle signup request
     const registerUser = async () => {
@@ -63,16 +60,22 @@ const loginUser = async () => {
 
             // If role is recruiter, create the company first
             if (signupData.role === 'recruiter') {
-                const entrepriseResponse = await axios.post('http://localhost:5000/api/entreprises', {
-                    nom_entreprise: signupData.companyName,
-                    secteur_activite: signupData.businessSector,
-                    site_web: signupData.siteWeb,
-                    telephone: signupData.phoneCompany,
-                    email: signupData.emailCompany,
-                    description: signupData.companyDescription,
-                    adresse: signupData.location,
-                });
-                entrepriseId = entrepriseResponse.data.id;
+                try {
+                    const entrepriseResponse = await axios.post('http://localhost:5000/api/entreprises', {
+                        nom_entreprise: signupData.companyName,
+                        secteur_activite: signupData.businessSector,
+                        site_web: signupData.siteWeb,
+                        telephone: signupData.phoneCompany,
+                        email: signupData.emailCompany,
+                        description: signupData.companyDescription,
+                        adresse: signupData.location,
+                    });
+                    entrepriseId = entrepriseResponse.data.id;
+                } catch (error) {
+                    console.error('Company creation failed', error);
+                    alert('Company creation failed: ' + (error.response?.data?.error || 'Unknown error'));
+                    return; // Stop the registration process if company creation fails
+                }
             }
 
             const response = await axios.post('http://localhost:5000/api/users/register', {
@@ -85,14 +88,12 @@ const loginUser = async () => {
                 role: signupData.role === 'candidate' ? 'employé' : 'recruteur',
                 id_entreprise: entrepriseId,
             });
-            alert('Signup Successful');
-            console.log(response.data);
 
             // Redirect user based on role after successful signup
             if (signupData.role === 'candidate') {
-                navigate('/'); // Home page for employees
+                navigate('/');
             } else if (signupData.role === 'recruiter') {
-                navigate('/CompanyDashboard'); // Recruiter page for recruiters
+                navigate('/CompanyDashboard');
             }
         } catch (error) {
             console.error('Signup failed', error);

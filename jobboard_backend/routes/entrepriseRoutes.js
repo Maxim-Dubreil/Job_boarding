@@ -7,9 +7,9 @@ const router = express.Router();
 // Récupérer toutes les entreprises (ouvert au public)
 router.get('/', getAllEntreprises);
 router.get('/:id', getEntrepriseById); // Récupérer une entreprise par ID (ouvert au public)
-
+router.post('/', createEntreprise);
 // Routes protégées - recruteur et admin
-router.post('/', authenticateToken, checkRole('recruteur'), createEntreprise);
+// Remove `authenticateToken` middleware for new recruiter signup
 router.put('/:id', authenticateToken, checkRole('recruteur'), updateEntreprise);
 router.delete('/:id', authenticateToken, checkRole('admin'), deleteEntreprise); // Suppression réservée aux admins
 
