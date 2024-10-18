@@ -20,4 +20,14 @@ const authenticateToken = (req, res, next) => {
     }
 };
 
-module.exports = { authenticateToken };
+// Middleware to check user's role
+const checkRole = (role) => {
+    return (req, res, next) => {
+        if (req.user.role !== role) {
+            return res.status(403).json({ error: 'Accès refusé. Rôle non autorisé.' });
+        }
+        next();
+    };
+};
+
+module.exports = { authenticateToken, checkRole };

@@ -32,7 +32,8 @@ const getAllOffers = async(req, res) => {
 
     const whereClause = {};
     if (mots_cles) whereClause.mots_cles = {
-        [Op.like]: `%${mots_cles}%` };
+        [Op.like]: `%${mots_cles}%`
+    };
     if (region) whereClause.region = region;
     if (type_emploi) whereClause.type_emploi = type_emploi;
     if (id_entreprise) whereClause.id_entreprise = id_entreprise;
@@ -124,18 +125,13 @@ const deleteOffer = async(req, res) => {
         res.status(500).json({ error: "Erreur lors de la suppression de l'offre d'emploi" });
     }
 };
-
-
-// Lire toutes les offres d'emploi d'une certaines entreprise
-const getAllEntrepriseOffers = async(req, res) => {
-    console.log(`voici req.params ${req.params}`)
-    const { id_entreprise } = req.params;
-
-
+// Lire toutes les offres d'une entreprise spécifique
+const getOffersByCompanyId = async(req, res) => {
+    const { companyId } = req.params;
 
     try {
         const offers = await OffreEmploi.findAll({
-            where: {id_entreprise},
+            where: { id_entreprise: companyId },
             include: {
                 model: Entreprise,
                 as: 'entreprise', // Use the alias defined in the association
@@ -144,14 +140,10 @@ const getAllEntrepriseOffers = async(req, res) => {
         });
         res.json(offers);
     } catch (error) {
-        console.error("Erreur lors de la récupération des offres d'emploi :", error);
-        res.status(500).json({ error: "Erreur lors de la récupération des offres d'emploi" });
+        console.error("Erreur lors de la récupération des offres d'emploi de l'entreprise :", error);
+        res.status(500).json({ error: "Erreur lors de la récupération des offres d'emploi de l'entreprise" });
     }
 };
-
-
-
-
 
 module.exports = {
     createOffer,
@@ -159,5 +151,5 @@ module.exports = {
     getOffer,
     updateOffer,
     deleteOffer,
-    getAllEntrepriseOffers
+    getOffersByCompanyId, // Add the new function here
 };
