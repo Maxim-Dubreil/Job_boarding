@@ -18,7 +18,7 @@ export function Home() {
 
   // Fetch job offers
   useEffect(() => {
-    axios.get('http://localhost:5000/api/offres/entreprise/2')
+    axios.get('http://localhost:5000/api/offres/')
       .then((res) => {
         setOffers(res.data);
         setFilteredOffers(res.data); // Initially, all offers are shown

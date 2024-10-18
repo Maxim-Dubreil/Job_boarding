@@ -28,7 +28,7 @@ const createOffer = async(req, res) => {
 
 // Lire toutes les offres d'emploi avec possibilité de filtrer
 const getAllOffers = async(req, res) => {
-    const { mots_cles, region, type_emploi, id_entreprise } = req.query;
+    const { mots_cles, region, type_emploi } = req.query;
 
     const whereClause = {};
     if (mots_cles) whereClause.mots_cles = {
@@ -36,7 +36,7 @@ const getAllOffers = async(req, res) => {
     };
     if (region) whereClause.region = region;
     if (type_emploi) whereClause.type_emploi = type_emploi;
-    if (id_entreprise) whereClause.id_entreprise = id_entreprise;
+    
 
     try {
         const offers = await OffreEmploi.findAll({
