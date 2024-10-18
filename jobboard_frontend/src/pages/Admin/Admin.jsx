@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import "../../styles/AdminCss/Admin.css"
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import logoHeaderAdmin from '../../assets/image/logoBanner.png';
 import Dashboard from '../../components/AdminComponents/Dashboard';
 import Users from '../../components/AdminComponents/Users';
 import Joboffers from '../../components/AdminComponents/Joboffers';
-import Company from '../../components/AdminComponents/Company';
+import {Company} from '../../components/AdminComponents/Company';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
+
 
 export function Admin () {
 
@@ -23,11 +24,37 @@ export function Admin () {
                 </div>
                 <div className='admin-group-header'>
                     <div className='admin-avatar'>
-                        <Avatar sx={{
-                            backgroundColor : '#FC6EDA',
-                        }}>MD
-                        </Avatar>
+
+                            <AdminPanelSettingsIcon
+                            fontSize='large'
+                            sx={{
+                            color:'#FC6EDA',
+                            }}
+                            />
                     </div>
+                    <Button
+                    variant='contained'
+                    size='small'
+                    sx={{
+                        width: '80px',
+                        height:'30px',
+                        borderRadius: '10px',
+                        backgroundColor: '#FC6EDA',
+                        textTransform: 'none',
+                        boxShadow: 'none',
+
+                        fontSize:'14px',
+                        fontFamily: 'Open_sans, sans-serif',
+                            '&:hover': {
+                                boxShadow: 'none',
+                                backgroundColor: '#fff',
+                                color: '#FC6EDA',
+                                border: '1px solid #FC6EDA',
+
+                        }
+                    }}>
+                        Log Out
+                    </Button>
 
                 </div>
             </header>
@@ -39,8 +66,7 @@ export function Admin () {
                         onClick={() => setActiveSection('Dashboard')}
                         size='small'
                         sx={{
-                            width: '100px',
-                            borderRadius:'10px',
+                            width: '90px',
                             backgroundColor: '#FC6EDA',
                             textTransform: 'none',
                             fontSize:'16px',
@@ -57,8 +83,7 @@ export function Admin () {
                         onClick={() => setActiveSection('JobOffers')}
                         size='small'
                         sx={{
-                            width: '100px',
-                            borderRadius:'10px',
+                            width: '90px',
                             backgroundColor: '#FC6EDA',
                             textTransform: 'none',
                             fontSize:'16px',
@@ -75,8 +100,7 @@ export function Admin () {
                         onClick={() => setActiveSection('Company')}
                         size='small'
                         sx={{
-                            width: '100px',
-                            borderRadius:'10px',
+                            width: '90px',
                             backgroundColor: '#FC6EDA',
                             textTransform: 'none',
                             fontSize:'16px',
@@ -93,8 +117,7 @@ export function Admin () {
                         onClick={() => setActiveSection('Users')}
                         size='small'
                         sx={{
-                            width: '100px',
-                            borderRadius:'10px',
+                            width: '90px',
                             backgroundColor: '#FC6EDA',
                             textTransform: 'none',
                             fontSize:'16px',

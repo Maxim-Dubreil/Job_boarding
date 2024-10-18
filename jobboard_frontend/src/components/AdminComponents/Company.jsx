@@ -1,12 +1,212 @@
-import '../../styles/AdminCss/Company.css'
+import '../../styles/AdminCss/Company.css';
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-function Company () {
+
+
+export function Company () {
+
+    const [rows, setRows] = useState([]);
+
+    const columns = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            flex :0.5,
+        },
+        {
+            field : 'nom_entreprise',
+            headerName:' Name',
+            flex :0.5,
+            cellClassName: 'name-column--cell'
+        },
+        {
+            field : 'email',
+            headerName:'Email',
+            type: 'email',
+            cellClassName : 'name-column--cell',
+            flex :1,
+            headerAlign: 'left',
+            align: 'left'
+        },
+
+        {
+            field :  'telephone',
+            headerName:' Phone',
+            flex :0.8,
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName : 'name-column--cell',
+
+        },
+
+        {
+            field :  'region',
+            headerName:'Location',
+            flex :1,
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName : 'name-column--cell',
+
+        },
+
+        {
+            field :  'secteur_activite',
+            headerName:'Buisines sector',
+            flex :1,
+            headerAlign: 'left',
+            align: 'left',
+            cellClassName : 'name-column--cell',
+
+        },
+
+        {
+            field: 'modify',
+            headerName:'',
+            flex:0.5,
+            cellClassName : 'name-column--cell',
+            renderCell: (params) => (
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="100%"
+                    height="100%"
+
+                >
+                    <IconButton
+                        sx={{
+                            backgroundColor: "#FC6EDA",
+                            color: "#fff",
+                            borderRadius: "50%",
+                            padding: "8px",
+                            "&:hover": {
+                                backgroundColor: "#ff69b4",
+                            },
+                         }}
+                    >
+                        <EditIcon /> {/* Assurez-vous d'avoir l'icône ici */}
+                    </IconButton>
+
+                </Box>
+            )
+        },
+        {
+            field: 'delete',
+            headerName:'',
+            flex:0.5,
+            cellClassName : 'name-column--cell',
+            renderCell: (params) => (
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="100%"
+                    height="100%"
+
+                >
+                    <IconButton
+                        sx={{
+                            backgroundColor: "#FC6EDA",
+                            color: "#fff",
+                            borderRadius: "50%",
+                            padding: "8px",
+                            "&:hover": {
+                                backgroundColor: "#ff69b4",
+                            },
+                         }}
+                    >
+                        <DeleteIcon /> {/* Assurez-vous d'avoir l'icône ici */}
+                    </IconButton>
+
+                </Box>
+            )
+        },
+    ];
+
+
+
+    // Fonction pour récupérer les données
+    const fetchCompanies = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/entreprises'); // Remplacez par l'URL de votre API
+            setRows(response.data); // Assurez-vous que response.data contient les données correctes
+        } catch (error) {
+            console.error("Error fetching companies:", error); // Affiche l'erreur dans la console
+        }
+    };
+
+    // Utilisez useEffect pour récupérer les données à la montée du composant
+    useEffect(() => {
+        fetchCompanies();
+    }, []); // Le tableau vide [] signifie que cette fonction s'exécutera une fois lors du premier rendu
+
+
+
 
     return (
-        <div>
-            <h1>Company</h1>
-        </div>
-    )
-}
+    <div className='div-page'>
+        <div className='company-all'>
+            <div className='company-header'>
+                <h2 className='titre-company'>
+                    COMPANY
+                    </h2>
+                <Button
+                    variant='contained'
+                    size='small'
+                    sx={{
+                        height:'30px',
+                        borderRadius: '10px',
+                        backgroundColor: '#FC6EDA',
+                        textTransform: 'none',
+                        boxShadow: 'none',
+                        fontSize:'14px',
+                        fontFamily: 'Open_sans, sans-serif',
+                        '&:hover': {
+                            boxShadow: 'none',
+                            backgroundColor: '#fff',
+                            color: '#FC6EDA',
+                            border: '1px solid #FC6EDA',
+                        }
+                    }}>
+                    Create Company
+                </Button>
+            </div>
+            <Box
+            m='10px 0 0 0'
+            height='75vh'
+            >
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={10}
+                    sx={{
+                        backgroundColor:'#FFF',
+                        "& .MuiDataGrid-root": {
+                            border: "1px solid #000",
+                        },
+                        "& .MuiDataGrid-cell": {
+                            borderBottom: '1px solid #fff',
+                        },
+                        "& .name-column--cell": {
+                            backgroundColor: '#fff',
+                            color: '#000',
+                        },
+                        "& .MuiDataGrid-columnHeaders": {
+                            backgroundColor: '#FC6EDA',
+                            color: '#000',
+                        },
+                    }}
+                    />
+            </Box>
 
-export default Company;
+        </div>
+    </div>
+    );
+}

@@ -1,5 +1,6 @@
 .admin-page {
-    min-height:100vh;
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding-top: 40px;
     background-color: #F8F8F8;
@@ -25,12 +26,17 @@
 }
 
 .admin-logo-header {
-    padding-left: 45px;
+    padding-left: 30px;
 
 }
 
 .admin-group-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
     padding-right: 10%;
+    gap : 20px;
 }
 
 .admin-sidebar {
@@ -40,10 +46,9 @@
     position: fixed;
     top: 40px; /* Alignement exact sous la navbar */
     left: 0;
-    width: 200px;
+    width: 150px;
     height: calc(100vh - 40px); /* Ajustement de la hauteur totale */
     padding: 10px;
-    gap: 30px;
     background-color: #fff;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
 
@@ -54,15 +59,17 @@
     flex-direction: column;
     position: fixed;
     align-items: center;
-    width: 180px;
+    width: 150px;
     padding: 5px;
-    gap: 35px;
+    gap: 20px;
     margin-top: 50px;
 }
 
 .admin-content {
-    position: fixed;
-    margin-left: 200px;
+    margin-left: 150px;
     padding: 20px;
     flex-grow: 1;
+    height: calc(100vh - 40px);
+    position: fixed;
+    width: 100vw;
 }
