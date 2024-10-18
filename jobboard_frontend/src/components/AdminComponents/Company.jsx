@@ -31,7 +31,7 @@ export function Company () {
             headerName:'Email',
             type: 'email',
             cellClassName : 'name-column--cell',
-            flex :1,
+            flex :0.8,
             headerAlign: 'left',
             align: 'left'
         },
@@ -67,10 +67,11 @@ export function Company () {
         },
 
         {
-            field: 'modify',
+            field: 'actions',
             headerName:'',
-            flex:0.5,
+            flex:0.6,
             cellClassName : 'name-column--cell',
+            disableColumnMenu: true,
             renderCell: (params) => (
                 <Box
                     display="flex"
@@ -78,14 +79,17 @@ export function Company () {
                     alignItems="center"
                     width="100%"
                     height="100%"
+                    gap='10px'
+                    p='5'
 
                 >
                     <IconButton
                         sx={{
+                            width:'40px',
+                            height:'40px',
                             backgroundColor: "#FC6EDA",
                             color: "#fff",
                             borderRadius: "50%",
-                            padding: "8px",
                             "&:hover": {
                                 backgroundColor: "#ff69b4",
                             },
@@ -93,30 +97,13 @@ export function Company () {
                     >
                         <EditIcon /> {/* Assurez-vous d'avoir l'icône ici */}
                     </IconButton>
-
-                </Box>
-            )
-        },
-        {
-            field: 'delete',
-            headerName:'',
-            flex:0.5,
-            cellClassName : 'name-column--cell',
-            renderCell: (params) => (
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    width="100%"
-                    height="100%"
-
-                >
                     <IconButton
                         sx={{
+                            width:'40px',
+                            height:'40px',
                             backgroundColor: "#FC6EDA",
                             color: "#fff",
                             borderRadius: "50%",
-                            padding: "8px",
                             "&:hover": {
                                 backgroundColor: "#ff69b4",
                             },
@@ -128,6 +115,7 @@ export function Company () {
                 </Box>
             )
         },
+
     ];
 
 
@@ -162,7 +150,7 @@ export function Company () {
                     size='small'
                     sx={{
                         height:'30px',
-                        borderRadius: '10px',
+                        borderRadius: '5px',
                         backgroundColor: '#FC6EDA',
                         textTransform: 'none',
                         boxShadow: 'none',
@@ -175,7 +163,7 @@ export function Company () {
                             border: '1px solid #FC6EDA',
                         }
                     }}>
-                    Create Company
+                    Create Company +
                 </Button>
             </div>
             <Box

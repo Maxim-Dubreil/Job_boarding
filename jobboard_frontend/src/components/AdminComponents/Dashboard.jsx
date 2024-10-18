@@ -7,10 +7,14 @@ import { DataGrid } from '@mui/x-data-grid';
 function Dashboard () {
 
     return (
-        <div>
-
-            <h1>Dashboard</h1>
-
+        <div className='div-page'>
+            <div className='company-all'>
+                <div className='company-header'>
+                    <h2 className='titre-company'>
+                        Dashboard
+                    </h2>
+                </div>
+            </div>
         </div>
     )
 }
