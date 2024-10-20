@@ -6,8 +6,40 @@ import FormApply from '../../components/FormApply';
 import Offer from "../../components/offer";
 import Footer from '../../components/Footer';
 import '../../styles/advert.css';
+import Modal from '@mui/material/Modal';
+import { Box, TextField, Button } from '@mui/material';
+import { Typography } from '@mui/material';
+
 
 export function Home() {
+
+//Apply form modal
+    const [open, setOpen] = useState (false);
+    const [formData, setFormData] = useState({
+      nameCandidate:'',
+      emailCandidate:'',
+      phoneCandidate:'',
+      messageCandidate:'',
+
+    });
+
+    const handleApply = () => setOpen(true);
+
+    const handleClose = () => setOpen(false);
+
+  //Chaque modif est maj
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    handleClose();
+  }
+
+
+
   const [offers, setOffers] = useState([]);
   const [filteredOffers, setFilteredOffers] = useState([]);
   const [entreprise, setEntreprise] = useState([]);
@@ -75,12 +107,12 @@ export function Home() {
   return (
     <div>
       <Banner />
-      <SearchBar 
-        what={what} 
-        setWhat={setWhat} 
-        where={where} 
-        setWhere={setWhere} 
-        handleSearch={handleSearch} 
+      <SearchBar
+        what={what}
+        setWhat={setWhat}
+        where={where}
+        setWhere={setWhere}
+        handleSearch={handleSearch}
       />
 
       <div className="annonces">
@@ -113,22 +145,113 @@ export function Home() {
 
         <div className={`container-displayed ${detail? "hide":"flex"}`} id="annonce">
           {selectedOffer && (
-            <Offer 
+            <Offer
               num={selectedOffer}
               entrepriseLieOffre={entrepriseOffer}
+              apply={handleApply}
             />
           )}
         </div>
         <div className={`container-displayed ${detail? "flex":"hide"}`} id="annonce">
           {selectedOffer && (
-            <FormApply 
+            <FormApply
               num={selectedOffer}
             />
           )}
         </div>
+          <Modal open={open} onClose={handleClose}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: 400,
+                  bgcolor:'#fff',
+                  border: '1px solid #000',
+                  borderRadius: '5px',
+                  p: 4,
+                }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                gutterBottom
+                sx={{ fontFamily: 'Open Sans, sans-serif', color : '#fc6eda', fontWeight:'bold'}}
+              >
+                To Apply
+              </Typography>
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                id="nameCandidate"
+                name="nameCandidate"
+                label="Name"
+                type="text"
+                fullWidth
+                variant="standard"
+                value={formData.nameCandidate}
+                onChange={handleChange}
 
-      </div>
 
+              />
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                id="emailCandidate"
+                name="emailCandidate"
+                label="Email Address"
+                type="email"
+                fullWidth
+                variant="standard"
+                value={formData.emailCandidate}
+                onChange={handleChange}
+              />
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                id="phoneCandidate"
+                name="phoneCandidate"
+                label="Phone number"
+                type="tel"
+                fullWidth
+                variant="standard"
+                value={formData.phoneCandidate}
+                onChange={handleChange}
+              />
+              <TextField
+                margin="dense"
+                id="messageCandidate"
+                name="messageCandidate"
+                label="Message"
+                multiline
+                rows={5}
+                fullWidth
+                variant="standard"
+                value={formData.messageCandidate}
+                onChange={handleChange}
+              />
+              <Button onClick={handleClose}
+                sx={{
+                  mt: 2,
+                  color: '#FC6EDA'
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type = "submit"
+                sx={{
+                  mt: 2,
+                  color: '#FC6EDA' }}
+                >
+                  Apply
+                </Button>
+              </Box>
+            </Modal>
+          </div>
       <Footer />
     </div>
   );

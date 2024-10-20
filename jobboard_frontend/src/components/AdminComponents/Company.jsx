@@ -14,21 +14,95 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import { AuthContext } from '../../context/AuthContext3';
 
-function Company() {
-    const [rows, setRows] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [selectedCompany, setSelectedCompany] = useState(null);
-    const [formValues, setFormValues] = useState({
-        nom_entreprise: '',
-        secteur_activite: '',
-        site_web: '',
-        description: '',
-        adresse: '',
-        region: '',
-        telephone: '',
-        email: '',
-    });
-    const { user } = useContext(AuthContext);
+
+
+export function Company () {
+
+    const [rows, setRows] = useState([]); //liste entreprise par ligne
+    const [editRow, setEditRow] = useState(null); //Id de la ligne en cours de modification
+    const [openModal, setOpenModal] = useState(false); //Etat du modal
+    const [openCreateModal, setOpenCreateModal] = useState(false); // Etat du modal de création
+
+    const [companyData, setCompanyData] = useState({
+      nom_entreprise: '',
+      email: '',
+      telephone: '',
+      region: '',
+      secteur_activite: '',
+    }); //donnée
+
+//récupération donnée entreprise
+    const fetchCompanies = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/entreprises');
+            setRows(response.data);
+        } catch (error) {
+            console.error("Error fetching companies:", error);
+        }
+    };
+    useEffect(() => {
+        fetchCompanies();
+    }, []);
+
+//Edit company
+    const handleEditClick = (row) => {
+        setEditRow(row.id);
+        setCompanyData({
+          nom_entreprise: row.nom_entreprise,
+          email: row.email,
+          telephone: row.telephone,
+          region: row.region,
+          secteur_activite:row.secteur_activite,
+        });
+        setOpenModal(true);
+      };
+
+//Save
+    const handleSave = async () => {
+        try {
+            await axios.put(`http://localhost:5000/api/entreprises/${editRow}`, companyData);
+            const updatedRows = rows.map((row) => (row.id === editRow ? { ...row, ...companyData } : row));
+            setRows(updatedRows);  // Mise à jour des données dans le tableau après modification
+            setOpenModal(false);  // Fermeture de la modale
+        } catch (error) {
+            console.error("Error updating company:", error);
+        }
+        };
+//Chaque modif est maj
+    const handleChange = (e) => {
+        setCompanyData({ ...companyData, [e.target.name]: e.target.value });
+        };
+
+//supprimer les données par ID
+    const handleDeleteClick = async (id) => {
+        try {
+          await axios.delete(`http://localhost:5000/api/entreprises/:id${id}`);
+          setRows(rows.filter((row) => row.id !== id));
+        } catch (error) {
+          console.error("Error deleting company:", error);
+        }
+      };
+
+
+
+//Créer une entreprise
+
+const handleCreate = async () =>   {
+    try {
+        const response = await axios.post('http://localhost:5000/api/entreprises', companyData);
+            setRows([...rows, response.data]); // Ajoute la nouvelle entreprise à la liste
+            setOpenCreateModal(false); // Ferme le modal de création
+            setCompanyData({ // Réinitialise les données
+                nom_entreprise: '',
+                email: '',
+                telephone: '',
+                region: '',
+                secteur_activite: '',
+            });
+        } catch (error) {
+            console.error("Error creating company:", error);
+        }
+    };
 
     const columns = [
         {
