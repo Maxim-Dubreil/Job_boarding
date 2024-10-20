@@ -3,24 +3,101 @@
     flex-direction: column;
     padding: 10px;
     height: 650px;
+    margin: 0;
+    font-family: Open_Sans;
+
 }
 
 .bloc-name-button {
     display: flex;
     flex-direction:row;
     justify-content: space-between;
+    align-items: center;
+    height: 15%;
+    align-items: flex-start;
+    padding-top: 10px;
+
+
 }
 .top-right-gros-bouton-apply {
-    width: 50%;
+    width: 40%;
+    height: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.offer-bouton {
+padding: 10px;
+box-sizing: border-box;
+
+}
+
+
+.offer-titre {
+    width: 80%
+};
+
+.top-left {
+    margin: 1px;
+}
+
+.titre1 {
+    font-size: 24px;
+    margin: 2px;
+}
+
+.nom-gros {
+    color: #FC6EDA ;
+    font-size: 18px;
+    padding-top: 5px;
+}
+
+.nom-gros:hover {
+    color: #ce3dac ;
+
 }
 
 .bloc-infos{
     display: flex;
-    flex: row;
+    flex-direction: row;
     width: 100%;
+    margin: 5px;
+    margin-top : 5px;
+    padding: 5px;
+    height: 15%;
 }
 
-.top-left {
-    width: 100%;
+.info-gris {
+    font-size: 16px;
+    background-color: #E0E0E0;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 5px;
+    margin: 4px;
+    font-weight: normal;
+}
 
+.info-salaire {
+    background-color: #79e2e2;
+    font-size: 16px;
+    padding: 5px;
+    margin: 4px;
+    border-radius: 10px;
+    font-weight: normal;
+    display: inline-block;
+}
+
+.bloc-description {
+    height: 70%;
+    width: 100%;
+}
+.titre-description {
+    font-size: 20px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.description-gros{
+    justify-content: center;
 }

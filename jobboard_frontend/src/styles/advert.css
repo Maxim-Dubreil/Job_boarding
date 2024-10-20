@@ -33,6 +33,7 @@
     padding: 5px;
     margin: 0;
     justify-content: center;
+    min-height: 700px;
 }
 .home-annonces{
     max-height: 80%;
@@ -137,6 +138,7 @@
 }
 
 .container-displayed {
+    width: 450px;
     margin: 5px;
     border: 1px solid transparent;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
