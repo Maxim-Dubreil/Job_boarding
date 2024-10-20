@@ -9,6 +9,7 @@ function Banner() {
     const navigate = useNavigate();
     const { user, logout } = React.useContext(AuthContext);
 
+
     return (
         <header className='Banner'>
             <div className='like-img'>

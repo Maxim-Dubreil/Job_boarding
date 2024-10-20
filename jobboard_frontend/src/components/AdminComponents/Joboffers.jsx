@@ -193,9 +193,9 @@ function JobOffers() {
 
     return (
         <div className='div-page'>
-            <div className='offer-all'>
-                <div className='offer-header'>
-                    <h2 className='titre-offer'>JOB OFFERS</h2>
+            <div className='company-all'>
+                <div className='company-header'>
+                    <h2 className='titre-company'>JOB OFFERS</h2>
                     <Button
                         variant='contained'
                         size='small'
