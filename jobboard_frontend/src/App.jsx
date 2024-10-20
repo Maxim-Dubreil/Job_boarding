@@ -12,9 +12,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CompanyDashboard" element={
-          <ProtectedRoute roles={['recruteur']}>
+         
             <CompanyDashboard />
-          </ProtectedRoute>
         } />
         <Route path="/admin" element={
           <ProtectedRoute roles={['admin']}>
