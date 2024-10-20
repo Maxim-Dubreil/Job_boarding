@@ -1,4 +1,4 @@
-import '../../styles/AdminCss/Joboffers.css';
+import '../../styles/AdminCss/Company.css';
 import Box from '@mui/material/Box';
 import { DataGrid, ColDef } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';

@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 
 
-
+    
 export function Company () {
 
     const [rows, setRows] = useState([]); //liste entreprise par ligne
