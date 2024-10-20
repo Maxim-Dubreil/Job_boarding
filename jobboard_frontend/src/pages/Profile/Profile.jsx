@@ -59,9 +59,10 @@ export function Profile() {
     };
 
     return (
-        <div>
+        <div className="profile-page">
             <Banner />
             <div className="profile-content">
+                <div className="form-content">
                 <h2>My Profile</h2>
                 <form className="profile-form" onSubmit={handleSubmit}>
                     <TextField
@@ -71,6 +72,9 @@ export function Profile() {
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <TextField
                         label="Last Name"
@@ -79,6 +83,9 @@ export function Profile() {
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <TextField
                         label="Email"
@@ -88,6 +95,9 @@ export function Profile() {
                         fullWidth
                         margin="normal"
                         disabled
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <TextField
                         label="Phone Number"
@@ -96,6 +106,9 @@ export function Profile() {
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <TextField
                         label="Address"
@@ -104,6 +117,9 @@ export function Profile() {
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <TextField
                         label="Role"
@@ -113,6 +129,9 @@ export function Profile() {
                         fullWidth
                         margin="normal"
                         disabled
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <TextField
                         label="CV Path"
@@ -121,6 +140,9 @@ export function Profile() {
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <TextField
                         label="Registration Date"
@@ -130,16 +152,32 @@ export function Profile() {
                         fullWidth
                         margin="normal"
                         disabled
+                        sx={{
+                            width:'450px',
+                        }}
                     />
                     <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        sx={{ mt: 2 }}
+                        sx={{
+                            mt: 2,
+                            borderRadius: '10px',
+                            backgroundColor: '#FC6EDA',
+                            fontSize:'14px',
+                            fontFamily: 'Open_sans, sans-serif',
+                                '&:hover': {
+                                    boxShadow: 'none',
+                                    backgroundColor: '#fff',
+                                    color: '#FC6EDA',
+                                    border: '1px solid #FC6EDA',
+                            }
+                         }}
                     >
                         Update Profile
                     </Button>
                 </form>
+                </div>
             </div>
             <Footer />
         </div>
