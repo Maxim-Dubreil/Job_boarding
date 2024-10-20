@@ -22,9 +22,7 @@ export function Home() {
   const { user } = useContext(AuthContext); // Use context to verify logged-in user
   const [selectedOffer, setSelectedOffer] = useState(null);
   
-  const handleApply = (offer) => {
-    setSelectedOffer(offer);
-    
+  const handleApply = () => {
     // Autofill the form if the user is logged in
     if (user) {
       setFormData({
@@ -173,7 +171,7 @@ export function Home() {
                     <Button
                       variant="contained"
                       className='learnmore'
-                      onClick={() => learnMore(index)}
+                      onClick={() => learnMore(index)}  // "Learn More" button to show more details
                       size="small"
                       sx={{
                         p: '5px',
@@ -198,7 +196,8 @@ export function Home() {
             ))}
           </div>
 
-          <div className={`container-displayed ${detail ? "hide" : "flex"}`} id="annonce">
+          {/* Detailed View */}
+          <div className={`container-displayed ${detail ? "flex" : "hide"}`} id="annonce">
             {selectedOffer && (
               <Offer
                 num={selectedOffer}
@@ -207,99 +206,100 @@ export function Home() {
               />
             )}
           </div>
-        </div>
 
-        <Modal open={open} onClose={handleClose}>
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 400,
-              bgcolor: '#fff',
-              border: '1px solid #000',
-              borderRadius: '5px',
-              p: 4,
-            }}>
-            <Typography
-              variant="h4"
-              component="h2"
-              gutterBottom
-              sx={{ fontFamily: 'Open Sans, sans-serif', color: '#fc6eda', fontWeight: 'bold' }}
-            >
-              To Apply for: {selectedOffer?.titre}
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <TextField
-                autoFocus
-                required
-                margin="dense"
-                id="nameCandidate"
-                name="nameCandidate"
-                label="Name"
-                type="text"
-                fullWidth
-                variant="standard"
-                value={formData.nameCandidate}
-                onChange={handleChange}
-              />
-              <TextField
-                required
-                margin="dense"
-                id="emailCandidate"
-                name="emailCandidate"
-                label="Email Address"
-                type="email"
-                fullWidth
-                variant="standard"
-                value={formData.emailCandidate}
-                onChange={handleChange}
-              />
-              <TextField
-                required
-                margin="dense"
-                id="phoneCandidate"
-                name="phoneCandidate"
-                label="Phone number"
-                type="tel"
-                fullWidth
-                variant="standard"
-                value={formData.phoneCandidate}
-                onChange={handleChange}
-              />
-              <TextField
-                margin="dense"
-                id="messageCandidate"
-                name="messageCandidate"
-                label="Message"
-                multiline
-                rows={5}
-                fullWidth
-                variant="standard"
-                value={formData.messageCandidate}
-                onChange={handleChange}
-              />
-              <Button onClick={handleClose}
-                sx={{
-                  mt: 2,
-                  color: '#FC6EDA'
-                }}
+          {/* Apply Modal */}
+          <Modal open={open} onClose={handleClose}>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 400,
+                bgcolor: '#fff',
+                border: '1px solid #000',
+                borderRadius: '5px',
+                p: 4,
+              }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                gutterBottom
+                sx={{ fontFamily: 'Open Sans, sans-serif', color: '#fc6eda', fontWeight: 'bold' }}
               >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                sx={{
-                  mt: 2,
-                  color: '#FC6EDA'
-                }}
-              >
-                Apply
-              </Button>
-            </form>
-          </Box>
-        </Modal>
+                To Apply for: {selectedOffer?.titre}
+              </Typography>
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="nameCandidate"
+                  name="nameCandidate"
+                  label="Name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={formData.nameCandidate}
+                  onChange={handleChange}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  id="emailCandidate"
+                  name="emailCandidate"
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  variant="standard"
+                  value={formData.emailCandidate}
+                  onChange={handleChange}
+                />
+                <TextField
+                  required
+                  margin="dense"
+                  id="phoneCandidate"
+                  name="phoneCandidate"
+                  label="Phone number"
+                  type="tel"
+                  fullWidth
+                  variant="standard"
+                  value={formData.phoneCandidate}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="dense"
+                  id="messageCandidate"
+                  name="messageCandidate"
+                  label="Message"
+                  multiline
+                  rows={5}
+                  fullWidth
+                  variant="standard"
+                  value={formData.messageCandidate}
+                  onChange={handleChange}
+                />
+                <Button onClick={handleClose}
+                  sx={{
+                    mt: 2,
+                    color: '#FC6EDA'
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  sx={{
+                    mt: 2,
+                    color: '#FC6EDA'
+                  }}
+                >
+                  Apply
+                </Button>
+              </form>
+            </Box>
+          </Modal>
+        </div>
       </div>
 
       <Footer />
