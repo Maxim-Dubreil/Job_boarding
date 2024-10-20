@@ -8,12 +8,100 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
+
 
 
 export function Company () {
 
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState([]); //liste entreprise par ligne
+    const [editRow, setEditRow] = useState(null); //Id de la ligne en cours de modification
+    const [openModal, setOpenModal] = useState(false); //Etat du modal
+    const [openCreateModal, setOpenCreateModal] = useState(false); // Etat du modal de création
 
+    const [companyData, setCompanyData] = useState({
+      nom_entreprise: '',
+      email: '',
+      telephone: '',
+      region: '',
+      secteur_activite: '',
+    }); //donnée
+
+//récupération donnée entreprise
+    const fetchCompanies = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/entreprises');
+            setRows(response.data);
+        } catch (error) {
+            console.error("Error fetching companies:", error);
+        }
+    };
+    useEffect(() => {
+        fetchCompanies();
+    }, []);
+
+//Edit company
+    const handleEditClick = (row) => {
+        setEditRow(row.id);
+        setCompanyData({
+          nom_entreprise: row.nom_entreprise,
+          email: row.email,
+          telephone: row.telephone,
+          region: row.region,
+          secteur_activite:row.secteur_activite,
+        });
+        setOpenModal(true);
+      };
+
+//Save
+    const handleSave = async () => {
+        try {
+            await axios.put(`http://localhost:5000/api/entreprises/${editRow}`, companyData);
+            const updatedRows = rows.map((row) => (row.id === editRow ? { ...row, ...companyData } : row));
+            setRows(updatedRows);  // Mise à jour des données dans le tableau après modification
+            setOpenModal(false);  // Fermeture de la modale
+        } catch (error) {
+            console.error("Error updating company:", error);
+        }
+        };
+//Chaque modif est maj
+    const handleChange = (e) => {
+        setCompanyData({ ...companyData, [e.target.name]: e.target.value });
+        };
+
+//supprimer les données par ID
+    const handleDeleteClick = async (id) => {
+        try {
+          await axios.delete(`http://localhost:5000/api/entreprises/:id${id}`);
+          setRows(rows.filter((row) => row.id !== id));
+        } catch (error) {
+          console.error("Error deleting company:", error);
+        }
+      };
+
+
+
+//Créer une entreprise
+
+const handleCreate = async () =>   {
+    try {
+        const response = await axios.post('http://localhost:5000/api/entreprises', companyData);
+            setRows([...rows, response.data]); // Ajoute la nouvelle entreprise à la liste
+            setOpenCreateModal(false); // Ferme le modal de création
+            setCompanyData({ // Réinitialise les données
+                nom_entreprise: '',
+                email: '',
+                telephone: '',
+                region: '',
+                secteur_activite: '',
+            });
+        } catch (error) {
+            console.error("Error creating company:", error);
+        }
+    };
+
+//Les colonnes
     const columns = [
         {
             field: 'id',
@@ -94,8 +182,10 @@ export function Company () {
                                 backgroundColor: "#ff69b4",
                             },
                          }}
+                         onClick={() => handleEditClick(params.row)}
+
                     >
-                        <EditIcon /> {/* Assurez-vous d'avoir l'icône ici */}
+                        <EditIcon />
                     </IconButton>
                     <IconButton
                         sx={{
@@ -108,8 +198,10 @@ export function Company () {
                                 backgroundColor: "#ff69b4",
                             },
                          }}
+                         onClick={() => handleDeleteClick(params.row.id)}
+
                     >
-                        <DeleteIcon /> {/* Assurez-vous d'avoir l'icône ici */}
+                        <DeleteIcon />
                     </IconButton>
 
                 </Box>
@@ -117,26 +209,6 @@ export function Company () {
         },
 
     ];
-
-
-
-    // Fonction pour récupérer les données
-    const fetchCompanies = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/entreprises'); // Remplacez par l'URL de votre API
-            setRows(response.data); // Assurez-vous que response.data contient les données correctes
-        } catch (error) {
-            console.error("Error fetching companies:", error); // Affiche l'erreur dans la console
-        }
-    };
-
-    // Utilisez useEffect pour récupérer les données à la montée du composant
-    useEffect(() => {
-        fetchCompanies();
-    }, []); // Le tableau vide [] signifie que cette fonction s'exécutera une fois lors du premier rendu
-
-
-
 
     return (
     <div className='div-page'>
@@ -162,7 +234,9 @@ export function Company () {
                             color: '#FC6EDA',
                             border: '1px solid #FC6EDA',
                         }
-                    }}>
+                    }}
+                    onClick={() => setOpenCreateModal(true)} // Ouvrir le modal de création
+                    >
                     Create Company +
                 </Button>
             </div>
@@ -193,7 +267,63 @@ export function Company () {
                     }}
                     />
             </Box>
+            <Modal open={openModal} onClose={() => setOpenModal(false)}>
+                <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        border: '1px solid #000',
+                        borderRadius: '5px',
+                        p: 4,
+                    }}>
+                <h2>Edit Company</h2>
+                    <TextField label="Name" name="nom_entreprise" value={companyData.nom_entreprise} onChange={handleChange} fullWidth margin="normal" />
+                    <TextField label="Email" name="email" value={companyData.email} onChange={handleChange} fullWidth margin="normal" />
+                    <TextField label="Phone" name="telephone" value={companyData.telephone} onChange={handleChange} fullWidth margin="normal" />
+                    <TextField label="Location" name="region" value={companyData.region} onChange={handleChange} fullWidth margin="normal" />
+                    <TextField label="Business sector" name="secteur_activite" value={companyData.secteur_activite} onChange={handleChange} fullWidth margin="normal" />
+                    <Button
+                        onClick={handleSave}
+                        sx={{
+                            mt: 2,
+                            color:'#FC6EDA'
+                            }}
+                        >
+                        Save
+                    </Button>
+                </Box>
+            </Modal>
 
+            <Modal open={openCreateModal} onClose={() => setOpenCreateModal(false)}>
+                    <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor:'#fff',
+                        border: '1px solid #000',
+                        borderRadius: '5px',
+                        p: 4,
+                    }}>
+                        <h2>Create Company</h2>
+                        <TextField label="Name" name="nom_entreprise" value={companyData.nom_entreprise} onChange={handleChange} fullWidth margin="normal" />
+                        <TextField label="Email" name="email" value={companyData.email} onChange={handleChange} fullWidth margin="normal" />
+                        <TextField label="Phone" name="telephone" value={companyData.telephone} onChange={handleChange} fullWidth margin="normal" />
+                        <TextField label="Location" name="region" value={companyData.region} onChange={handleChange} fullWidth margin="normal" />
+                        <TextField label="Business sector" name="secteur_activite" value={companyData.secteur_activite} onChange={handleChange} fullWidth margin="normal" />
+                        <Button
+                            onClick={handleCreate}
+                            sx={{ mt: 2,
+                                color: '#FC6EDA' }}
+                        >
+                            Create
+                        </Button>
+                    </Box>
+                </Modal>
         </div>
     </div>
     );

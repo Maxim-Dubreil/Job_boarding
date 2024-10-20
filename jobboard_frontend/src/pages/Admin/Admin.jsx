@@ -8,10 +8,19 @@ import Users from '../../components/AdminComponents/Users';
 import Joboffers from '../../components/AdminComponents/Joboffers';
 import {Company} from '../../components/AdminComponents/Company';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { useNavigate } from 'react-router-dom';
+
+import { AuthContext } from '../../context/AuthContext3';
+
+
 
 
 
 export function Admin () {
+
+    const navigate = useNavigate();
+    const { logout } = React.useContext(AuthContext);
+
 
     const [activeSection, setActiveSection] = useState ('Dashboard');
 
@@ -35,6 +44,10 @@ export function Admin () {
                     <Button
                     variant='contained'
                     size='small'
+                    onClick={() => {
+                        logout();
+                        navigate('/');
+                    }}
                     sx={{
                         width: '80px',
                         height:'30px',
