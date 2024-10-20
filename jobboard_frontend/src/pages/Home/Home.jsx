@@ -173,7 +173,7 @@ export function Home() {
                     <Button
                       variant="contained"
                       className='learnmore'
-                      onClick={() => handleApply(advert)}
+                      onClick={() => learnMore(index)}
                       size="small"
                       sx={{
                         p: '5px',
@@ -190,7 +190,7 @@ export function Home() {
                         }
                       }}
                     >
-                      Apply
+                      Learn More
                     </Button>
                   </div>
                 </div>
