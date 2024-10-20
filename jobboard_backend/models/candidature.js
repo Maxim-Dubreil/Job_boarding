@@ -18,10 +18,35 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
     Candidature.init({
-        id_offre: DataTypes.INTEGER,
-        id_utilisateur: DataTypes.INTEGER,
-        message_candidature: DataTypes.TEXT,
-        date_candidature: DataTypes.DATE
+        id_offre: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        id_utilisateur: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        nom: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        telephone: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        message_candidature: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
+        date_candidature: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
+        }
     }, {
         sequelize,
         modelName: 'Candidature',

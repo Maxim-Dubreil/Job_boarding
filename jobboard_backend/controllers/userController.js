@@ -38,26 +38,43 @@ const registerUser = async (req, res) => {
 
 // Connexion des utilisateurs
 const loginUser = async (req, res) => {
-  const { email, mot_de_passe } = req.body;
-
-  try {
-    const user = await Utilisateur.findOne({ where: { email } });
-    if (!user) {
-      return res.status(401).json({ error: 'Identifiants incorrects' });
+    const { email, mot_de_passe } = req.body;
+  
+    try {
+      const user = await Utilisateur.findOne({ where: { email } });
+      if (!user) {
+        return res.status(401).json({ error: 'Identifiants incorrects' });
+      }
+  
+      const isMatch = await bcrypt.compare(mot_de_passe, user.mot_de_passe);
+      if (!isMatch) {
+        return res.status(401).json({ error: 'Mot de passe incorrect' });
+      }
+  
+      const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      
+      // Include full user data in response
+      res.json({
+        message: 'Connexion réussie',
+        token,
+        user: {
+          id: user.id,
+          nom: user.nom,
+          prenom: user.prenom,
+          email: user.email,
+          telephone: user.telephone,
+          adresse: user.adresse,
+          role: user.role,
+          id_entreprise: user.id_entreprise
+        }
+      });
+    } catch (error) {
+      console.error('Erreur lors de la connexion :', error);
+      res.status(500).json({ error: 'Erreur lors de la connexion' });
     }
+  };
+  
 
-    const isMatch = await bcrypt.compare(mot_de_passe, user.mot_de_passe);
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Mot de passe incorrect' });
-    }
-
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ message: 'Connexion réussie', token, role: user.role });
-  } catch (error) {
-    console.error('Erreur lors de la connexion :', error);
-    res.status(500).json({ error: 'Erreur lors de la connexion' });
-  }
-};
 
 // Récupérer le profil utilisateur
 const getUserProfile = async (req, res) => {

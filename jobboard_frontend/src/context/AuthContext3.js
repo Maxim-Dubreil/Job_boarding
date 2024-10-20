@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const login = (userData) => {
+        // Ensure `nom` and `prenom` are part of the userData object
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
     };

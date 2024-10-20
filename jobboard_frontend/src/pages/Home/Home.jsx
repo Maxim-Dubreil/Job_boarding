@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
@@ -9,6 +9,7 @@ import '../../styles/advert.css';
 import Modal from '@mui/material/Modal';
 import { Box, TextField, Button } from '@mui/material';
 import { Typography } from '@mui/material';
+import { AuthContext } from '../../context/AuthContext3';
 
 export function Home() {
   // Apply form modal
@@ -19,12 +20,67 @@ export function Home() {
     phoneCandidate: '',
     messageCandidate: '',
   });
+  const { user } = useContext(AuthContext); // Use context to verify logged-in user
+  const [selectedOffer, setSelectedOffer] = useState(null);
+  
+  const handleApply = (offer) => {
+    setSelectedOffer(offer);
+    
+    // Autofill the form if the user is logged in
+    if (user) {
+      setFormData({
+        nameCandidate: `${user.nom} ${user.prenom}`,
+        emailCandidate: user.email,
+        phoneCandidate: user.telephone || '',
+        messageCandidate: '',
+      });
+    } else {
+      setFormData({
+        nameCandidate: '',
+        emailCandidate: '',
+        phoneCandidate: '',
+        messageCandidate: '',
+      });
+    }
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  // Handle form changes
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
+      const response = await axios.post(
+        'http://localhost:5000/api/candidatures',
+        {
+          id_offre: selectedOffer.id,
+          id_utilisateur: user ? user.id : null, // User ID if logged in
+          nom: formData.nameCandidate,
+          email: formData.emailCandidate,
+          telephone: formData.phoneCandidate,
+          message_candidature: formData.messageCandidate,
+        },
+        { headers }
+      );
+      console.log('Candidature créée avec succès:', response.data);
+      handleClose();
+    } catch (error) {
+      console.error('Erreur lors de la création de la candidature:', error);
+    }
+  };
+
   const [offers, setOffers] = useState([]);
   const [filteredOffers, setFilteredOffers] = useState([]);
   const [entreprise, setEntreprise] = useState([]);
-  const [selectedOffer, setSelectedOffer] = useState(null);
   const [entrepriseOffer, setEntrepriseOffer] = useState({});
-  const [detail, setDetail] = useState(false); // controls which part of the site is displayed
+  const [detail, setDetail] = useState(false);
 
   const [what, setWhat] = useState(''); // Search by title/keywords
   const [where, setWhere] = useState(''); // Search by location
@@ -34,7 +90,7 @@ export function Home() {
     axios.get('http://localhost:5000/api/offres/')
       .then((res) => {
         setOffers(res.data);
-        setFilteredOffers(res.data); // Initially, all offers are shown
+        setFilteredOffers(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -68,32 +124,6 @@ export function Home() {
 
   const showDetail = () => {
     setDetail(false);
-  };
-
-  // Handle apply click
-  const handleApply = (offer) => {
-    setSelectedOffer(offer);
-    setFormData({
-      nameCandidate: '',
-      emailCandidate: '',
-      phoneCandidate: '',
-      messageCandidate: '',
-    });
-    setOpen(true);
-  };
-
-  const handleClose = () => setOpen(false);
-
-  // Handle form changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData, 'For offer:', selectedOffer);
-    handleClose();
   };
 
   // Handle search input changes
