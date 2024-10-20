@@ -16,9 +16,9 @@ router.get('/', getAllOffers); // Get all job offers
 router.get('/:id', getOffer); // Get a specific job offer by ID
 
 // Routes protégées - recruteur uniquement (Protected routes for recruiters only)
-router.post('/', authenticateToken, checkRole('recruteur'), createOffer); // Create a new job offer
-router.put('/:id', authenticateToken, checkRole('recruteur'), updateOffer); // Update an existing job offer
-router.delete('/:id', authenticateToken, checkRole('recruteur'), deleteOffer); // Delete a job offer
+router.post('/', authenticateToken, createOffer); // Create a new job offer
+router.put('/:id', authenticateToken, updateOffer); // Update an existing job offer
+router.delete('/:id', authenticateToken, deleteOffer); // Delete a job offer
 
 // Route pour obtenir toutes les offres d'emploi d'une entreprise (Get all job offers of a specific company)
 router.get('/entreprise/:id_entreprise', getAllEntrepriseOffers);

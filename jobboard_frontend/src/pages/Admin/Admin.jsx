@@ -6,7 +6,8 @@ import logoHeaderAdmin from '../../assets/image/logoBanner.png';
 // import Dashboard from '../../components/AdminComponents/Dashboard';
 import Users from '../../components/AdminComponents/Users';
 import Joboffers from '../../components/AdminComponents/Joboffers';
-import {Company} from '../../components/AdminComponents/Company';
+import Company from '../../components/AdminComponents/Company';
+
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext3';
