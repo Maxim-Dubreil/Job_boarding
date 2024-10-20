@@ -5,7 +5,7 @@ function Footer () {
     return(
         <footer className="footer">
             <div className="footer-content">
-                <p className='Copyright'>
+                <p className="copyright">
                     <CopyrightIcon fontSize="small" /> {new Date().getFullYear()} Mon Application. Tous droits réservés.
                 </p>
             </div>

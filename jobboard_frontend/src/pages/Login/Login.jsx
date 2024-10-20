@@ -217,6 +217,7 @@ export function Login() {
                                             fontSize: '15px',
                                             color: '#000',
                                             textAlign: 'center',
+                                            backgroundColor:'white'
                                         }}
                                     >
                                         Choose one:
@@ -250,6 +251,7 @@ export function Login() {
                                                     fontWeight: 'regular',
                                                     fontSize: '14px',
                                                     color: '#000',
+                                                    backgroundColor:'white',
                                                     '&.Mui-checked': {
                                                         color: '#000',
                                                     },
@@ -281,6 +283,7 @@ export function Login() {
                                                     fontWeight: 'regular',
                                                     fontSize: '14px',
                                                     color: '#000',
+                                                    backgroundColor:'white',
                                                     '&.Mui-checked': {
                                                         color: '#000',
                                                     },
@@ -493,7 +496,7 @@ export function Login() {
                                 <div className='signup-input-mail'>
                                     <label htmlFor="description" className='sign-label'>Describe your company</label>
                                     <input
-                                        type='textarea'
+                                        type='text'
                                         id="description"
                                         className='sign-input'
                                         value={signupData.companyDescription}
