@@ -87,29 +87,27 @@ function Banner() {
                     </Link>
                 )}
 
-                {user && user.role === 'recruteur' && (
-                    <Link to="/CompanyDashboard">
-                        <Button
-                            className='but-recruitement'
-                            variant="text"
-                            size='small'
-                            sx={{
-                                borderRadius: '15px',
-                                color: '#000000',
-                                textTransform: 'none',
-                                fontSize: '16px',
-                                fontFamily: 'Open_sans, sans-serif',
-                                fontWeight: 'bold',
-                                textDecoration: 'underline',
+                <Link to="/CompanyDashboard">
+                    <Button
+                        className='but-recruitement'
+                        variant="text"
+                        size='small'
+                        sx={{
+                            borderRadius: '15px',
+                            color: '#000000',
+                            textTransform: 'none',
+                            fontSize: '16px',
+                            fontFamily: 'Open_sans, sans-serif',
+                            fontWeight: 'bold',
+                            textDecoration: 'underline',
+                            backgroundColor: '#FFFFFF',
+                            '&:hover': {
                                 backgroundColor: '#FFFFFF',
-                                '&:hover': {
-                                    backgroundColor: '#FFFFFF',
-                                }
-                            }}>
-                            Recruitment access
-                        </Button>
-                    </Link>
-                )}
+                            }
+                        }}>
+                        Recruitment access
+                    </Button>
+                </Link>
             </div>
         </header>
     );
