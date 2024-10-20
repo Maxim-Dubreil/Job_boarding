@@ -5,7 +5,6 @@ import FooterCompany from '../../components/FooterCompany';
 import Candidature from '../../components/Candidature';
 import Offer from '../../components/offercompanies';
 import '../../styles/companiesAdvert.css';
-import Footer from '../../components/FooterCompany';
 import { AuthContext } from '../../context/AuthContext3';
 import { Box, TextField, Button, Modal } from '@mui/material';
 
@@ -140,12 +139,59 @@ export function CompanyDashboard() {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <div className='company-page'>
       <BannerCompany />
-
-      <div className='boutonC cacherC flexC'>
-        <button onClick={hide} className='learnmoreC'>Hide all offers</button>
-        <button onClick={handleOpenCreate} className='learnmoreC'>Create New Offer</button>
+      <div className='company-bouton'>
+        <div className='boutonC cacherC flexC'>
+          <Button
+           type="submit"
+           variant="contained"
+           color="primary"
+           sx={{
+                mt: '40px',
+                marginRight: '10px',
+               borderRadius: '10px',
+               backgroundColor: '#FC6EDA',
+               fontSize:'14px',
+               height:'35px',
+               fontFamily: 'Open_sans, sans-serif',
+               boxShadow:'none',
+                   '&:hover': {
+                       boxShadow: 'none',
+                       backgroundColor: '#fff',
+                       color: '#FC6EDA',
+                       border: '1px solid #FC6EDA',
+               }
+            }}
+            onClick={hide}
+          >
+            Hide all offers
+          </Button>
+          <Button
+           type="submit"
+           variant="contained"
+           color="primary"
+           sx={{
+              mt: '40px',
+              marginLeft: '25px',
+               borderRadius: '10px',
+               height:'35px',
+               backgroundColor: '#FC6EDA',
+               fontSize:'14px',
+               fontFamily: 'Open_sans, sans-serif',
+                boxShadow:'none',
+                   '&:hover': {
+                       boxShadow: 'none',
+                       backgroundColor: '#fff',
+                       color: '#FC6EDA',
+                       border: '1px solid #FC6EDA',
+               }
+            }}
+            onClick={handleOpenCreate}
+          >
+            Create New Offer
+          </Button>
+        </div>
       </div>
       <div className={`annoncesC ${shown === true ? "flexC" : "hideC"}`}
       >
@@ -180,7 +226,7 @@ export function CompanyDashboard() {
 
         <div className={`container-displayedC ${detail ? "flexC" : "hideC"}`} id="annonce">
           {selectedOffer && (
-            <Offer 
+            <Offer
               num={selectedOffer}
               entrepriseLieOffre={entrepriseOffer}
             />
