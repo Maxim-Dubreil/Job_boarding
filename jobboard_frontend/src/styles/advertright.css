@@ -1,80 +1,26 @@
-.bouton-apply{
+.advert-displayed-border {
     display: flex;
-
-}
-
-.apply{
-    height: fit-content;
-    width: fit-content;
-    font-size: 150%;
-    padding: 2%;
-    font-weight: bold;
-    justify-self: flex-end;
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: #FC6EDA;
-    color: #f1f1f1;
-    border : none;
-    font-Family: 'Roboto';
-}
-
-.mid{
-    display: flex;
-    justify-content: space-around;
-}
-.top-left{
     flex-direction: column;
-    flex-wrap: wrap;
+    padding: 10px;
+    height: 650px;
 }
-.top-right,.top-right-gros,.top-left{
-    flex: 10%;
-    
+
+.bloc-name-button {
     display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+.top-right-gros-bouton-apply {
+    width: 50%;
 }
 
-.top-right-gros{
-    flex-direction: column;
-    align-items: flex-end;
-}
-.gros{
-    font-size: 120%;
+.bloc-infos{
+    display: flex;
+    flex: row;
+    width: 100%;
 }
 
+.top-left {
+    width: 100%;
 
-.titre{
-    font-size: 150%;
-}
-.description{
-    border-top: 0.5px;
-    border-top: solid;
-    flex: 100%;
-    white-space: pre-line; 
-}
-
-
-
-.bleu{
-    background-color: #80bfbf;
-}
-
-.gris{
-    background-color: #c1b4b4;
-}
-
-.lieu{
-    word-spacing: 1em;
-}
-
-
-.info{
-    width: auto;
-    padding-bottom: 1%;
-    padding-top: 0.7%;
-    padding-left: 2%;
-    padding-right: 2%;
-    text-align: center;
-    display: inline-block;
-    font-weight: normal;
-    height: fit-content;
-    border-radius: 10px;
 }

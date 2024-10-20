@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
-import FormApply from '../../components/FormApply';
 import Offer from "../../components/offer";
 import Footer from '../../components/Footer';
 import '../../styles/advert.css';
@@ -121,18 +120,19 @@ export function Home() {
               className={`home-advert ${selectedOffer?.id === advert.id ? "selected-offer" : "unselected-offer"}`}
               key={advert.id}
             >
-            <div className='top-left'>
-              <h3>{advert.titre}</h3>
-              <h4>{NomEntrepriseId(advert.id_entreprise)}</h4>
+            <div className='block-tittle-keyword'>
+              <div className='title-advert'>
+                <h2 className='job-name'>{advert.titre}</h2>
+                <h3 className="name-entreprise">{NomEntrepriseId(advert.id_entreprise)}</h3>
+              </div>
+              <div className='keyword-content'>
+                <p className='info'>{advert.region} {advert.lieu}</p>
+                <p className='info'>{advert.type_emploi}</p>
+                <p className='info'>{advert.salaire} €</p>
+                <p className='info-heuretravail'>{advert.heures_travail}</p>
+              </div>
             </div>
-            <div className='top-right'>
-              <h5 className='info-gris-lieu'>{advert.region} {advert.lieu}</h5>
-              <h5 className='info-gris'>{advert.type_emploi}</h5>
-              <h5 className='info-bleu'>{advert.salaire} €</h5>
-              <h5 className='info-gris'>{advert.heures_travail}</h5>
-            </div>
-            <p className='mid'>{advert.description_p}</p>
-            <div className="bottom">
+            <div className="home-bottom">
               <div className='home-bouton'>
                 <Button
                 variant="contained"
