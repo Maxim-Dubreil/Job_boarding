@@ -21,13 +21,25 @@ module.exports = {
             },
             id_utilisateur: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
+                allowNull: true, // Peut être null pour les utilisateurs non connectés
                 references: {
-                    model: 'Utilisateurs', // Référence au modèle Utilisateurs
+                    model: 'Utilisateurs',
                     key: 'id'
                 },
                 onUpdate: 'CASCADE',
-                onDelete: 'CASCADE'
+                onDelete: 'SET NULL'
+            },
+            nom: {
+                type: Sequelize.STRING,
+                allowNull: true,
+            },
+            email: {
+                type: Sequelize.STRING,
+                allowNull: true,
+            },
+            telephone: {
+                type: Sequelize.STRING,
+                allowNull: true,
             },
             message_candidature: {
                 type: Sequelize.TEXT,

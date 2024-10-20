@@ -1,12 +1,21 @@
 // controllers/candidatureController.js (Sequelize Version)
-const { Candidature } = require('../models');
-
+const { Candidature, Utilisateur } = require('../models');
 // Créer une nouvelle candidature
-const createCandidature = async(req, res) => {
-    const { id_offre, id_utilisateur, message_candidature } = req.body;
+const createCandidature = async (req, res) => {
+    const { id_offre, id_utilisateur, nom, email, telephone, message_candidature } = req.body;
+
+    // Log request data to verify if correct data is being sent
+    console.log('Received data:', req.body);
 
     try {
-        const candidature = await Candidature.create({ id_offre, id_utilisateur, message_candidature });
+        const candidature = await Candidature.create({
+            id_offre,
+            id_utilisateur: id_utilisateur || null,
+            nom: nom || null,
+            email: email || null,
+            telephone: telephone || null,
+            message_candidature,
+        });
         res.json({ message: 'Candidature créée avec succès', id: candidature.id });
     } catch (err) {
         console.error('Erreur lors de la création de la candidature :', err);
@@ -14,8 +23,11 @@ const createCandidature = async(req, res) => {
     }
 };
 
+
+
+
 // Récupérer toutes les candidatures d'un utilisateur
-const getCandidaturesByUserId = async(req, res) => {
+const getCandidaturesByUserId = async (req, res) => {
     const { userId } = req.params;
 
     try {
@@ -28,7 +40,7 @@ const getCandidaturesByUserId = async(req, res) => {
 };
 
 // Récupérer toutes les candidatures d'une offre d'emploi
-const getCandidaturesByOffreId = async(req, res) => {
+const getCandidaturesByOffreId = async (req, res) => {
     const { offreId } = req.params;
 
     try {
@@ -41,7 +53,7 @@ const getCandidaturesByOffreId = async(req, res) => {
 };
 
 // Supprimer une candidature par ID
-const deleteCandidature = async(req, res) => {
+const deleteCandidature = async (req, res) => {
     const { id } = req.params;
 
     try {

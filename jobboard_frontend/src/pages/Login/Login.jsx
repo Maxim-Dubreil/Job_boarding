@@ -34,17 +34,19 @@ export function Login() {
                 mot_de_passe: loginData.password,
             });
 
-            // Use AuthContext to store user data
-            login(response.data);
+            // Destructure user details from response
+            const { token, user } = response.data;
+
+            // Add token to user object and use AuthContext to store user data
+            const userWithToken = { ...user, token };
+            login(userWithToken);
 
             // Redirect user based on role
-            const userRole = response.data.role;
-
-            if (userRole === 'employé') {
+            if (user.role === 'employé') {
                 navigate('/', { replace: true });
-            } else if (userRole === 'recruteur') {
+            } else if (user.role === 'recruteur') {
                 navigate('/CompanyDashboard', { replace: true });
-            } else if (userRole === 'admin') {
+            } else if (user.role === 'admin') {
                 navigate('/Admin', { replace: true });
             }
         } catch (error) {
