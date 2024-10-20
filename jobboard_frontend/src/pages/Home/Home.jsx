@@ -10,42 +10,21 @@ import Modal from '@mui/material/Modal';
 import { Box, TextField, Button } from '@mui/material';
 import { Typography } from '@mui/material';
 
-
 export function Home() {
-
-//Apply form modal
-    const [open, setOpen] = useState (false);
-    const [formData, setFormData] = useState({
-      nameCandidate:'',
-      emailCandidate:'',
-      phoneCandidate:'',
-      messageCandidate:'',
-
-    });
-
-    const handleApply = () => setOpen(true);
-
-    const handleClose = () => setOpen(false);
-
-  //Chaque modif est maj
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    handleClose();
-  }
-
-
-
+  // Apply form modal
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    nameCandidate: '',
+    emailCandidate: '',
+    phoneCandidate: '',
+    messageCandidate: '',
+  });
   const [offers, setOffers] = useState([]);
   const [filteredOffers, setFilteredOffers] = useState([]);
   const [entreprise, setEntreprise] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [entrepriseOffer, setEntrepriseOffer] = useState({});
-  const [detail, setDetail] = useState(false); // gère quel partie du site est affiché à droite
+  const [detail, setDetail] = useState(false); // controls which part of the site is displayed
 
   const [what, setWhat] = useState(''); // Search by title/keywords
   const [where, setWhere] = useState(''); // Search by location
@@ -83,14 +62,39 @@ export function Home() {
   // Handle "Learn More" click
   const learnMore = (index) => {
     setSelectedOffer(filteredOffers[index]);
-    setDetail(true)
+    setDetail(true);
     setEntrepriseOffer(getEntrepriseById(filteredOffers[index].id_entreprise));
   };
 
+  const showDetail = () => {
+    setDetail(false);
+  };
 
-  const showDetail = ()=>{
-    setDetail(false)
-  }
+  // Handle apply click
+  const handleApply = (offer) => {
+    setSelectedOffer(offer);
+    setFormData({
+      nameCandidate: '',
+      emailCandidate: '',
+      phoneCandidate: '',
+      messageCandidate: '',
+    });
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
+  // Handle form changes
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData, 'For offer:', selectedOffer);
+    handleClose();
+  };
 
   // Handle search input changes
   const handleSearch = () => {
@@ -136,50 +140,51 @@ export function Home() {
               <p className='mid'>{advert.description_p}</p>
               <div className="bottom">
                 <div className='bouton'>
-                  <button variant="contained" className='learnmore'> Learn More</button>
+                  <button variant="contained" className='learnmore' onClick={() => handleApply(advert)}> Apply </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className={`container-displayed ${detail? "hide":"flex"}`} id="annonce">
+        <div className={`container-displayed ${detail ? "hide" : "flex"}`} id="annonce">
           {selectedOffer && (
             <Offer
               num={selectedOffer}
               entrepriseLieOffre={entrepriseOffer}
-              apply={handleApply}
+              apply={() => handleApply(selectedOffer)}
             />
           )}
         </div>
-        <div className={`container-displayed ${detail? "flex":"hide"}`} id="annonce">
+        <div className={`container-displayed ${detail ? "flex" : "hide"}`} id="annonce">
           {selectedOffer && (
             <FormApply
               num={selectedOffer}
             />
           )}
         </div>
-          <Modal open={open} onClose={handleClose}>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 400,
-                  bgcolor:'#fff',
-                  border: '1px solid #000',
-                  borderRadius: '5px',
-                  p: 4,
-                }}>
-              <Typography
-                variant="h4"
-                component="h2"
-                gutterBottom
-                sx={{ fontFamily: 'Open Sans, sans-serif', color : '#fc6eda', fontWeight:'bold'}}
-              >
-                To Apply
-              </Typography>
+        <Modal open={open} onClose={handleClose}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: '#fff',
+              border: '1px solid #000',
+              borderRadius: '5px',
+              p: 4,
+            }}>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              sx={{ fontFamily: 'Open Sans, sans-serif', color: '#fc6eda', fontWeight: 'bold' }}
+            >
+              To Apply for: {selectedOffer?.titre}
+            </Typography>
+            <form onSubmit={handleSubmit}>
               <TextField
                 autoFocus
                 required
@@ -192,11 +197,8 @@ export function Home() {
                 variant="standard"
                 value={formData.nameCandidate}
                 onChange={handleChange}
-
-
               />
               <TextField
-                autoFocus
                 required
                 margin="dense"
                 id="emailCandidate"
@@ -209,7 +211,6 @@ export function Home() {
                 onChange={handleChange}
               />
               <TextField
-                autoFocus
                 required
                 margin="dense"
                 id="phoneCandidate"
@@ -242,16 +243,18 @@ export function Home() {
                 Cancel
               </Button>
               <Button
-                type = "submit"
+                type="submit"
                 sx={{
                   mt: 2,
-                  color: '#FC6EDA' }}
-                >
-                  Apply
-                </Button>
-              </Box>
-            </Modal>
-          </div>
+                  color: '#FC6EDA'
+                }}
+              >
+                Apply
+              </Button>
+            </form>
+          </Box>
+        </Modal>
+      </div>
       <Footer />
     </div>
   );

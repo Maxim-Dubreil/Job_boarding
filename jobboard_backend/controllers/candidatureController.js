@@ -2,11 +2,18 @@
 const { Candidature } = require('../models');
 
 // Créer une nouvelle candidature
-const createCandidature = async(req, res) => {
-    const { id_offre, id_utilisateur, message_candidature } = req.body;
+const createCandidature = async (req, res) => {
+    const { id_offre, id_utilisateur, nom, email, telephone, message_candidature } = req.body;
 
     try {
-        const candidature = await Candidature.create({ id_offre, id_utilisateur, message_candidature });
+        const candidature = await Candidature.create({
+            id_offre,
+            id_utilisateur,  // Peut être `null` si l'utilisateur n'est pas connecté
+            nom,             // Nom du candidat (pour les utilisateurs non connectés)
+            email,           // Email du candidat (pour les utilisateurs non connectés)
+            telephone,       // Téléphone du candidat (pour les utilisateurs non connectés)
+            message_candidature,
+        });
         res.json({ message: 'Candidature créée avec succès', id: candidature.id });
     } catch (err) {
         console.error('Erreur lors de la création de la candidature :', err);
@@ -15,7 +22,7 @@ const createCandidature = async(req, res) => {
 };
 
 // Récupérer toutes les candidatures d'un utilisateur
-const getCandidaturesByUserId = async(req, res) => {
+const getCandidaturesByUserId = async (req, res) => {
     const { userId } = req.params;
 
     try {
@@ -28,7 +35,7 @@ const getCandidaturesByUserId = async(req, res) => {
 };
 
 // Récupérer toutes les candidatures d'une offre d'emploi
-const getCandidaturesByOffreId = async(req, res) => {
+const getCandidaturesByOffreId = async (req, res) => {
     const { offreId } = req.params;
 
     try {
@@ -41,7 +48,7 @@ const getCandidaturesByOffreId = async(req, res) => {
 };
 
 // Supprimer une candidature par ID
-const deleteCandidature = async(req, res) => {
+const deleteCandidature = async (req, res) => {
     const { id } = req.params;
 
     try {

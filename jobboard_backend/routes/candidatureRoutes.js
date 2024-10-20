@@ -5,15 +5,16 @@ const { authenticateToken, checkRole } = require('../middleware/authMiddleware')
 const router = express.Router();
 
 // Route pour créer une candidature (employé uniquement)
-router.post('/', authenticateToken, checkRole('employé'), createCandidature);
+router.post('/', createCandidature); // Remove `authenticateToken` if non-authenticated users can apply.
+
 
 // Route pour récupérer les candidatures d'un utilisateur (employé uniquement)
-router.get('/user/:userId', authenticateToken, checkRole('employé'), getCandidaturesByUserId);
+router.get('/user/:userId', getCandidaturesByUserId);
 
 // Route pour récupérer les candidatures d'une offre (recruteur uniquement)
-router.get('/offre/:offreId', authenticateToken, checkRole('recruteur'), getCandidaturesByOffreId);
+router.get('/offre/:offreId', getCandidaturesByOffreId);
 
 // Route pour supprimer une candidature (employé uniquement)
-router.delete('/:id', authenticateToken, checkRole('employé'), deleteCandidature);
+router.delete('/:id', deleteCandidature);
 
 module.exports = router;

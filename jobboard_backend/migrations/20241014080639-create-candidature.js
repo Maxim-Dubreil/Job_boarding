@@ -1,3 +1,4 @@
+// Migration mise à jour pour Candidatures
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -21,13 +22,25 @@ module.exports = {
             },
             id_utilisateur: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
+                allowNull: true, // Peut être null pour les utilisateurs non connectés
                 references: {
                     model: 'Utilisateurs', // Référence au modèle Utilisateurs
                     key: 'id'
                 },
                 onUpdate: 'CASCADE',
                 onDelete: 'CASCADE'
+            },
+            nom: {
+                type: Sequelize.STRING,
+                allowNull: true, // Nom du candidat (utilisé si non connecté)
+            },
+            email: {
+                type: Sequelize.STRING,
+                allowNull: true, // Email du candidat (utilisé si non connecté)
+            },
+            telephone: {
+                type: Sequelize.STRING,
+                allowNull: true, // Téléphone du candidat (utilisé si non connecté)
             },
             message_candidature: {
                 type: Sequelize.TEXT,
