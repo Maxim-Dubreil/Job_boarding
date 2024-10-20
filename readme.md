@@ -39,6 +39,14 @@ npx sequelize-cli db:migrate
 
 
 Run Seeders (optional if you have seed files):
+The user password for the seed
+
+
+Each user, recruiter, and admin now has a hashed password (mot_de_passe).
+Used bcrypt to hash passwords:
+Employees: 'password123'
+Recruiters: 'recruiterpassword'
+Admins: 'adminpassword'
 
 npx sequelize-cli db:seed:all
 
