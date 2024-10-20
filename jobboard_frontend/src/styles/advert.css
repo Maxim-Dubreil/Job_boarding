@@ -146,8 +146,8 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    position: sticky; /* Rendre le bloc sticky */
-    top: 150px; /* La distance du haut de la fenêtre */
+    position: sticky; 
+    top: 150px;
     z-index: 1;
 
 
