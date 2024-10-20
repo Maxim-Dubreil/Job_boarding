@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
@@ -8,42 +8,78 @@ import '../../styles/advert.css';
 import Modal from '@mui/material/Modal';
 import { Box, TextField, Button } from '@mui/material';
 import { Typography } from '@mui/material';
-
+import { AuthContext } from '../../context/AuthContext3';
 
 export function Home() {
+  // Apply form modal
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    nameCandidate: '',
+    emailCandidate: '',
+    phoneCandidate: '',
+    messageCandidate: '',
+  });
+  const { user } = useContext(AuthContext); // Use context to verify logged-in user
+  const [selectedOffer, setSelectedOffer] = useState(null);
+  
+  const handleApply = (offer) => {
+    setSelectedOffer(offer);
+    
+    // Autofill the form if the user is logged in
+    if (user) {
+      setFormData({
+        nameCandidate: `${user.nom} ${user.prenom}`,
+        emailCandidate: user.email,
+        phoneCandidate: user.telephone || '',
+        messageCandidate: '',
+      });
+    } else {
+      setFormData({
+        nameCandidate: '',
+        emailCandidate: '',
+        phoneCandidate: '',
+        messageCandidate: '',
+      });
+    }
+    setOpen(true);
+  };
 
-//Apply form modal
-    const [open, setOpen] = useState (false);
-    const [formData, setFormData] = useState({
-      nameCandidate:'',
-      emailCandidate:'',
-      phoneCandidate:'',
-      messageCandidate:'',
+  const handleClose = () => setOpen(false);
 
-    });
-
-    const handleApply = () => setOpen(true);
-
-    const handleClose = () => setOpen(false);
-
-  //Chaque modif est maj
+  // Handle form changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    handleClose();
-  }
-
+    try {
+      const headers = user ? { Authorization: `Bearer ${user.token}` } : {};
+      const response = await axios.post(
+        'http://localhost:5000/api/candidatures',
+        {
+          id_offre: selectedOffer.id,
+          id_utilisateur: user ? user.id : null, // User ID if logged in
+          nom: formData.nameCandidate,
+          email: formData.emailCandidate,
+          telephone: formData.phoneCandidate,
+          message_candidature: formData.messageCandidate,
+        },
+        { headers }
+      );
+      console.log('Candidature créée avec succès:', response.data);
+      handleClose();
+    } catch (error) {
+      console.error('Erreur lors de la création de la candidature:', error);
+    }
+  };
 
   const [offers, setOffers] = useState([]);
   const [filteredOffers, setFilteredOffers] = useState([]);
   const [entreprise, setEntreprise] = useState([]);
-  const [selectedOffer, setSelectedOffer] = useState(null);
   const [entrepriseOffer, setEntrepriseOffer] = useState({});
-  const [detail, setDetail] = useState(true); // gère quel partie du site est affiché à droite
+  const [detail, setDetail] = useState(false);
 
   const [what, setWhat] = useState(''); // Search by title/keywords
   const [where, setWhere] = useState(''); // Search by location
@@ -53,7 +89,7 @@ export function Home() {
     axios.get('http://localhost:5000/api/offres/')
       .then((res) => {
         setOffers(res.data);
-        setFilteredOffers(res.data); // Initially, all offers are shown
+        setFilteredOffers(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -81,27 +117,26 @@ export function Home() {
   // Handle "Learn More" click
   const learnMore = (index) => {
     setSelectedOffer(filteredOffers[index]);
-    setDetail(true)
+    setDetail(true);
     setEntrepriseOffer(getEntrepriseById(filteredOffers[index].id_entreprise));
   };
 
-
-  const showDetail = ()=>{
-    setDetail(false)
-  }
+  const showDetail = () => {
+    setDetail(false);
+  };
 
   // Handle search input changes
   const handleSearch = () => {
     const filtered = offers.filter((offer) => {
-      const matchesWhat = offer.titre.toLowerCase().includes(what.toLowerCase()) ||
-        offer.mots_cles.toLowerCase().includes(what.toLowerCase());
-      const matchesWhere = offer.lieu.toLowerCase().includes(where.toLowerCase()) ||
-        offer.region.toLowerCase().includes(where.toLowerCase());
+      const matchesWhat = (offer.titre && offer.titre.toLowerCase().includes(what.toLowerCase())) ||
+        (offer.mots_cles && offer.mots_cles.toLowerCase().includes(what.toLowerCase()));
+      const matchesWhere = (offer.lieu && offer.lieu.toLowerCase().includes(where.toLowerCase())) ||
+        (offer.region && offer.region.toLowerCase().includes(where.toLowerCase()));
       return matchesWhat && matchesWhere;
     });
     setFilteredOffers(filtered);
   };
-
+  
   return (
     <div className='home-body'>
       <Banner />
@@ -112,88 +147,90 @@ export function Home() {
         setWhere={setWhere}
         handleSearch={handleSearch}
       />
-      <div className='home-content'>
+
+      <div className="home-content">
         <div className="home-annonces">
           <div className="home-adverts">
             {filteredOffers.map((advert, index) => (
-            <div
-              className={`home-advert ${selectedOffer?.id === advert.id ? "selected-offer" : "unselected-offer"}`}
-              key={advert.id}
-            >
-            <div className='block-tittle-keyword'>
-              <div className='title-advert'>
-                <h2 className='job-name'>{advert.titre}</h2>
-                <h3 className="name-entreprise">{NomEntrepriseId(advert.id_entreprise)}</h3>
-              </div>
-              <div className='keyword-content'>
-                <p className='info'>{advert.region} {advert.lieu}</p>
-                <p className='info'>{advert.type_emploi}</p>
-                <p className='info'>{advert.salaire} €</p>
-                <p className='info-heuretravail'>{advert.heures_travail}</p>
-              </div>
-            </div>
-            <div className="home-bottom">
-              <div className='home-bouton'>
-                <Button
-                variant="contained"
-                className='learnmore'
-                onClick={() => learnMore(index)}
-                size="small"
-                sx={{
-                    p:'5px',
-                    boxShadow: 'none',
-                    fontSize: '12px',
-                    fontFamily: 'Open_sans, sans-serif',
-                    borderRadius: '10px',
-                    textTransform: 'none',
-                    backgroundColor: '#FC6EDA',
-                    fontWeight:'bold',
-                    '&:hover': {
-                        boxShadow: 'none',
-                        backgroundColor: '#E056B3',
-                    }
-                }}
-                >
-                  Learn More
-                </Button>
-              </div>
-            </div>
-          </div>
-          ))}
-        </div>
-
-        <div className={`container-displayed ${detail? "hide":"flex"}`} id="annonce">
-          {selectedOffer && (
-            <Offer
-              num={selectedOffer}
-              entrepriseLieOffre={entrepriseOffer}
-              apply={handleApply}
-            />
-          )}
-        </div>
-      </div>
-
-          <Modal open={open} onClose={handleClose}>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 400,
-                  bgcolor:'#fff',
-                  border: '1px solid #000',
-                  borderRadius: '5px',
-                  p: 4,
-                }}>
-              <Typography
-                variant="h4"
-                component="h2"
-                gutterBottom
-                sx={{ fontFamily: 'Open Sans, sans-serif', color : '#fc6eda', fontWeight:'bold'}}
+              <div
+                className={`home-advert ${selectedOffer?.id === advert.id ? "selected-offer" : "unselected-offer"}`}
+                key={advert.id}
               >
-                To Apply
-              </Typography>
+                <div className='block-tittle-keyword'>
+                  <div className='title-advert'>
+                    <h2 className='job-name'>{advert.titre}</h2>
+                    <h3 className="name-entreprise">{NomEntrepriseId(advert.id_entreprise)}</h3>
+                  </div>
+                  <div className='keyword-content'>
+                    <p className='info'>{advert.region} {advert.lieu}</p>
+                    <p className='info'>{advert.type_emploi}</p>
+                    <p className='info'>{advert.salaire} €</p>
+                    <p className='info-heuretravail'>{advert.heures_travail}</p>
+                  </div>
+                </div>
+                <div className="home-bottom">
+                  <div className='home-bouton'>
+                    <Button
+                      variant="contained"
+                      className='learnmore'
+                      onClick={() => handleApply(advert)}
+                      size="small"
+                      sx={{
+                        p: '5px',
+                        boxShadow: 'none',
+                        fontSize: '12px',
+                        fontFamily: 'Open_sans, sans-serif',
+                        borderRadius: '10px',
+                        textTransform: 'none',
+                        backgroundColor: '#FC6EDA',
+                        fontWeight: 'bold',
+                        '&:hover': {
+                          boxShadow: 'none',
+                          backgroundColor: '#E056B3',
+                        }
+                      }}
+                    >
+                      Apply
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={`container-displayed ${detail ? "hide" : "flex"}`} id="annonce">
+            {selectedOffer && (
+              <Offer
+                num={selectedOffer}
+                entrepriseLieOffre={entrepriseOffer}
+                apply={handleApply}
+              />
+            )}
+          </div>
+        </div>
+
+        <Modal open={open} onClose={handleClose}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: '#fff',
+              border: '1px solid #000',
+              borderRadius: '5px',
+              p: 4,
+            }}>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              sx={{ fontFamily: 'Open Sans, sans-serif', color: '#fc6eda', fontWeight: 'bold' }}
+            >
+              To Apply for: {selectedOffer?.titre}
+            </Typography>
+            <form onSubmit={handleSubmit}>
               <TextField
                 autoFocus
                 required
@@ -206,11 +243,8 @@ export function Home() {
                 variant="standard"
                 value={formData.nameCandidate}
                 onChange={handleChange}
-
-
               />
               <TextField
-                autoFocus
                 required
                 margin="dense"
                 id="emailCandidate"
@@ -223,7 +257,6 @@ export function Home() {
                 onChange={handleChange}
               />
               <TextField
-                autoFocus
                 required
                 margin="dense"
                 id="phoneCandidate"
@@ -256,16 +289,19 @@ export function Home() {
                 Cancel
               </Button>
               <Button
-                type = "submit"
+                type="submit"
                 sx={{
                   mt: 2,
-                  color: '#FC6EDA' }}
-                >
-                  Apply
-                </Button>
-              </Box>
-            </Modal>
-          </div>
+                  color: '#FC6EDA'
+                }}
+              >
+                Apply
+              </Button>
+            </form>
+          </Box>
+        </Modal>
+      </div>
+
       <Footer />
     </div>
   );
