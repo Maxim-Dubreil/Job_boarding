@@ -228,3 +228,21 @@ p{
     border : none;
     font-Family: 'Roboto';
 }
+.editC {
+    border-radius: 10px;
+    margin-left: 1%;
+    margin-right: 1%;
+    cursor: pointer;
+    background-color: #ffffff; /* White background */
+    color: #000000; /* Black text */
+    border: 1px solid #FC6EDA; /* Pink border */
+    padding: 8px 16px; /* Adjust padding for a nice button size */
+    font-size: 16px; /* Slightly smaller font size */
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+.editC:hover {
+    background-color: #FC6EDA; /* Pink background on hover */
+    color: #ffffff; /* White text on hover */
+}
