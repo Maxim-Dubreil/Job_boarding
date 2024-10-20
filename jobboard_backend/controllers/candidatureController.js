@@ -40,18 +40,32 @@ const getCandidaturesByUserId = async (req, res) => {
 };
 
 // Récupérer toutes les candidatures d'une offre d'emploi
+
 const getCandidaturesByOffreId = async (req, res) => {
-    const { offreId } = req.params;
-
-    try {
-        const candidatures = await Candidature.findAll({ where: { id_offre: offreId } });
-        res.json(candidatures);
-    } catch (err) {
-        console.error('Erreur lors de la récupération des candidatures :', err);
-        res.status(500).json({ error: 'Erreur lors de la récupération des candidatures' });
+    const offreId = req.params.offreId; 
+  
+    if (!offreId) {
+      return res.status(400).json({ error: 'Missing offre ID parameter' });
     }
-};
-
+  
+    try {
+      const candidatures = await Candidature.findAll({
+        where: { id_offre: offreId },
+        include: [
+          {
+            model: Utilisateur,
+            as: 'utilisateur',
+            attributes: ['nom', 'prenom', 'email', 'telephone']
+          }
+        ]
+      });
+      res.status(200).json(candidatures);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des candidatures :', error);
+      res.status(500).json({ error: 'Erreur lors de la récupération des candidatures.' });
+    }
+  };
+  
 // Supprimer une candidature par ID
 const deleteCandidature = async (req, res) => {
     const { id } = req.params;

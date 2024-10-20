@@ -9,7 +9,6 @@ function Banner() {
     const navigate = useNavigate();
     const { user, logout } = React.useContext(AuthContext);
 
-
     return (
         <header className='Banner'>
             <div className='like-img'>
@@ -66,49 +65,51 @@ function Banner() {
                         </Button>
                     </>
                 ) : (
-                    <Link to="/Login">
-                        <Button
-                            className="but-connexion"
-                            variant="contained"
-                            size='small'
-                            sx={{
-                                boxShadow: 'none',
-                                fontSize: '16px',
-                                fontFamily: 'Open_sans, sans-serif',
-                                borderRadius: '15px',
-                                textTransform: 'none',
-                                backgroundColor: '#FC6EDA',
-                                '&:hover': {
+                    <>
+                        <Link to="/Login">
+                            <Button
+                                className="but-connexion"
+                                variant="contained"
+                                size='small'
+                                sx={{
                                     boxShadow: 'none',
-                                    backgroundColor: '#E056B3',
-                                },
-                            }}>
-                            Connexion
-                        </Button>
-                    </Link>
-                )}
+                                    fontSize: '16px',
+                                    fontFamily: 'Open_sans, sans-serif',
+                                    borderRadius: '15px',
+                                    textTransform: 'none',
+                                    backgroundColor: '#FC6EDA',
+                                    '&:hover': {
+                                        boxShadow: 'none',
+                                        backgroundColor: '#E056B3',
+                                    },
+                                }}>
+                                Connexion
+                            </Button>
+                        </Link>
 
-                <Link to="/CompanyDashboard">
-                    <Button
-                        className='but-recruitement'
-                        variant="text"
-                        size='small'
-                        sx={{
-                            borderRadius: '15px',
-                            color: '#000000',
-                            textTransform: 'none',
-                            fontSize: '16px',
-                            fontFamily: 'Open_sans, sans-serif',
-                            fontWeight: 'bold',
-                            textDecoration: 'underline',
-                            backgroundColor: '#FFFFFF',
-                            '&:hover': {
-                                backgroundColor: '#FFFFFF',
-                            }
-                        }}>
-                        Recruitment access
-                    </Button>
-                </Link>
+                        <Link to="/CompanyDashboard">
+                            <Button
+                                className='but-recruitement'
+                                variant="text"
+                                size='small'
+                                sx={{
+                                    borderRadius: '15px',
+                                    color: '#000000',
+                                    textTransform: 'none',
+                                    fontSize: '16px',
+                                    fontFamily: 'Open_sans, sans-serif',
+                                    fontWeight: 'bold',
+                                    textDecoration: 'underline',
+                                    backgroundColor: '#FFFFFF',
+                                    '&:hover': {
+                                        backgroundColor: '#FFFFFF',
+                                    }
+                                }}>
+                                Recruitment access
+                            </Button>
+                        </Link>
+                    </>
+                )}
             </div>
         </header>
     );
