@@ -165,7 +165,7 @@ function Joboffers () {
         <div className='company-all'>
             <div className='company-header'>
                 <h2 className='titre-company'>
-                    Offers
+                    OFFERS
                     </h2>
                 <Button
                     variant='contained'

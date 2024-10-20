@@ -3,14 +3,14 @@ import "../../styles/AdminCss/Admin.css"
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import logoHeaderAdmin from '../../assets/image/logoBanner.png';
-import Dashboard from '../../components/AdminComponents/Dashboard';
+// import Dashboard from '../../components/AdminComponents/Dashboard';
 import Users from '../../components/AdminComponents/Users';
 import Joboffers from '../../components/AdminComponents/Joboffers';
 import {Company} from '../../components/AdminComponents/Company';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { useNavigate } from 'react-router-dom';
-
 import { AuthContext } from '../../context/AuthContext3';
+import { Link } from 'react-router-dom';
 
 
 
@@ -22,14 +22,16 @@ export function Admin () {
     const { logout } = React.useContext(AuthContext);
 
 
-    const [activeSection, setActiveSection] = useState ('Dashboard');
+    const [activeSection, setActiveSection] = useState ('Joboffers');
 
     return (
         <div className='admin-page'>
 
             <header className='admin-header'>
                 <div className='admin-logo-header'>
+                    <Link to='/' onClick={logout} >
                         <img src={logoHeaderAdmin} alt="Le super logo de Pinkedin" className="logo"/>
+                    </Link>
                 </div>
                 <div className='admin-group-header'>
                     <div className='admin-avatar'>
@@ -74,23 +76,6 @@ export function Admin () {
 
             <div className='admin-sidebar'>
                 <div className='admin-sidebar-button'>
-                    <Button
-                        variant='contained'
-                        onClick={() => setActiveSection('Dashboard')}
-                        size='small'
-                        sx={{
-                            width: '90px',
-                            backgroundColor: '#FC6EDA',
-                            textTransform: 'none',
-                            fontSize:'16px',
-                            fontFamily: 'Open_sans, sans-serif',
-                                '&:hover': {
-                                backgroundColor: '#E056B3',
-                                fontWeight: 'bold',
-                            }
-                        }}>
-                        Dahsbord
-                    </Button>
                     <Button
                         variant='contained'
                         onClick={() => setActiveSection('JobOffers')}
@@ -146,7 +131,6 @@ export function Admin () {
             </div>
 
             <div className='admin-content'>
-                {activeSection === 'Dashboard' && <Dashboard />}
                 {activeSection === 'JobOffers' && <Joboffers />}
                 {activeSection === 'Company' && <Company/>}
                 {activeSection === 'Users' && <Users />}

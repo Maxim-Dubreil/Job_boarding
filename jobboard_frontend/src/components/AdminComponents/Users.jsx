@@ -137,7 +137,7 @@ function Users () {
         <div className='company-all'>
             <div className='company-header'>
                 <h2 className='titre-company'>
-                    Users
+                    USERS
                     </h2>
                 <Button
                     variant='contained'
