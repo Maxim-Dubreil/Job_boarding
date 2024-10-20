@@ -147,8 +147,8 @@
     display: flex;
     flex-direction: column;
     position: sticky; /* Rendre le bloc sticky */
-    top: 10px; /* La distance du haut de la fenêtre */
-    z-index: 1; 
+    top: 150px; /* La distance du haut de la fenêtre */
+    z-index: 1;
 
 
 }
