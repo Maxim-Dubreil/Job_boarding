@@ -39,13 +39,12 @@ export function Home() {
   }
 
 
-
   const [offers, setOffers] = useState([]);
   const [filteredOffers, setFilteredOffers] = useState([]);
   const [entreprise, setEntreprise] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [entrepriseOffer, setEntrepriseOffer] = useState({});
-  const [detail, setDetail] = useState(false); // gère quel partie du site est affiché à droite
+  const [detail, setDetail] = useState(true); // gère quel partie du site est affiché à droite
 
   const [what, setWhat] = useState(''); // Search by title/keywords
   const [where, setWhere] = useState(''); // Search by location
@@ -105,7 +104,7 @@ export function Home() {
   };
 
   return (
-    <div>
+    <div className='home-body'>
       <Banner />
       <SearchBar
         what={what}
@@ -114,32 +113,52 @@ export function Home() {
         setWhere={setWhere}
         handleSearch={handleSearch}
       />
-
-      <div className="annonces">
-        <div className="adverts">
-          {filteredOffers.map((advert, index) => (
+      <div className='home-content'>
+        <div className="home-annonces">
+          <div className="home-adverts">
+            {filteredOffers.map((advert, index) => (
             <div
-              className={`advert ${selectedOffer?.id === advert.id ? "rose" : "border"}`}
+              className={`home-advert ${selectedOffer?.id === advert.id ? "selected-offer" : "unselected-offer"}`}
               key={advert.id}
-              onClick={() => learnMore(index)}
             >
-              <div className='top left'>
-                <h3>{advert.titre}</h3>
-                <h4>{NomEntrepriseId(advert.id_entreprise)}</h4>
-              </div>
-              <div className='top-right'>
-                <h5 className='info gris lieu'>{advert.region} {advert.lieu}</h5>
-                <h5 className='info gris'>{advert.type_emploi}</h5>
-                <h5 className='info bleu'>{advert.salaire} €</h5>
-                <h5 className='info gris'>{advert.heures_travail}</h5>
-              </div>
-              <p className='mid'>{advert.description_p}</p>
-              <div className="bottom">
-                <div className='bouton'>
-                  <button variant="contained" className='learnmore'> Learn More</button>
-                </div>
+            <div className='top-left'>
+              <h3>{advert.titre}</h3>
+              <h4>{NomEntrepriseId(advert.id_entreprise)}</h4>
+            </div>
+            <div className='top-right'>
+              <h5 className='info-gris-lieu'>{advert.region} {advert.lieu}</h5>
+              <h5 className='info-gris'>{advert.type_emploi}</h5>
+              <h5 className='info-bleu'>{advert.salaire} €</h5>
+              <h5 className='info-gris'>{advert.heures_travail}</h5>
+            </div>
+            <p className='mid'>{advert.description_p}</p>
+            <div className="bottom">
+              <div className='home-bouton'>
+                <Button
+                variant="contained"
+                className='learnmore'
+                onClick={() => learnMore(index)}
+                size="small"
+                sx={{
+                    p:'5px',
+                    boxShadow: 'none',
+                    fontSize: '12px',
+                    fontFamily: 'Open_sans, sans-serif',
+                    borderRadius: '10px',
+                    textTransform: 'none',
+                    backgroundColor: '#FC6EDA',
+                    fontWeight:'bold',
+                    '&:hover': {
+                        boxShadow: 'none',
+                        backgroundColor: '#E056B3',
+                    }
+                }}
+                >
+                  Learn More
+                </Button>
               </div>
             </div>
+          </div>
           ))}
         </div>
 
@@ -152,13 +171,8 @@ export function Home() {
             />
           )}
         </div>
-        <div className={`container-displayed ${detail? "flex":"hide"}`} id="annonce">
-          {selectedOffer && (
-            <FormApply
-              num={selectedOffer}
-            />
-          )}
-        </div>
+      </div>
+
           <Modal open={open} onClose={handleClose}>
               <Box
                 sx={{
