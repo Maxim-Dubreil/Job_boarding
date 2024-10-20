@@ -143,42 +143,42 @@ export function CompanyDashboard() {
     <div>
       <BannerCompany />
 
-      <div className='bouton cacher flex'>
-        <button onClick={hide} className='learnmore'>Hide all offers</button>
-        <button onClick={handleOpenCreate} className='learnmore'>Create New Offer</button>
+      <div className='boutonC cacherC flexC'>
+        <button onClick={hide} className='learnmoreC'>Hide all offers</button>
+        <button onClick={handleOpenCreate} className='learnmoreC'>Create New Offer</button>
       </div>
-      <div className={`annonces ${shown === true ? "flex" : "hide"}`}
+      <div className={`annoncesC ${shown === true ? "flexC" : "hideC"}`}
       >
-        <div className="adverts">
+        <div className="advertsC">
           {offers.map((advert, index) => (
             <div
-              className={`advert ${selectedOffer?.id === advert.id ? "rose" : "border"} `}
+              className={`advertC ${selectedOffer?.id === advert.id ? "roseC" : "borderC"} `}
               key={advert.id}
             >
-              <div className='top'>
+              <div className='topC'>
                 <h3>{advert.titre}</h3>
               </div>
-              <div className='mid'>
-                <h5 className='info gris lieu'>{advert.region} {advert.lieu}</h5>
-                <h5 className='info gris'>{advert.type_emploi}</h5>
+              <div className='midC'>
+                <h5 className='infoC grisC lieuC'>{advert.region} {advert.lieu}</h5>
+                <h5 className='infoC grisC'>{advert.type_emploi}</h5>
               </div>
-              <div className='mid'>
-                <h5 className='info bleu'>{advert.salaire} €</h5>
-                <h5 className='info gris'>{advert.heures_travail}</h5>
+              <div className='midC'>
+                <h5 className='infoC bleuC'>{advert.salaire} €</h5>
+                <h5 className='infoC grisC'>{advert.heures_travail}</h5>
               </div>
-              <p className='mid'>{advert.description_p}</p>
-              <div className="bottom">
-                <div className='bouton'>
-                  <button variant="contained" className='learnmore' onClick={() => learnMore(index)}> View More</button>
-                  <button className='view' onClick={() => showCandidacies(advert.id)}>show candidacy</button>
-                  <button className='edit' onClick={() => handleOpenEdit(advert)}>Edit Offer</button>
+              <p className='midC'>{advert.description_p}</p>
+              <div className="bottomC">
+                <div className='boutonC'>
+                  <button variant="contained" className='learnmoreC' onClick={() => learnMore(index)}> View More</button>
+                  <button className='viewC' onClick={() => showCandidacies(advert.id)}>show candidacy</button>
+                  <button className='editC' onClick={() => handleOpenEdit(advert)}>Edit Offer</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className={`container-displayed ${detail ? "flex" : "hide"}`} id="annonce">
+        <div className={`container-displayedC ${detail ? "flexC" : "hideC"}`} id="annonce">
           {selectedOffer && (
             <Offer 
               num={selectedOffer}
@@ -186,11 +186,11 @@ export function CompanyDashboard() {
             />
           )}
         </div>
-        <div className={`container-displayed ${detail ? "hide" : "flex"}`}>
-          <div className="advert-displayed border local">
+        <div className={`container-displayedC ${detail ? "hideC" : "flexC"}`}>
+          <div className="advert-displayedC borderC localC">
             {candidacies.length > 0 ? (
               candidacies.map((candidacy, index) => (
-                <div key={index} className="candidature-card">
+                <div key={index} className="candidature-cardC">
                   <h4>Nom: {candidacy.nom} {candidacy.prenom}</h4>
                   <p>Email: {candidacy.email}</p>
                   <p>Téléphone: {candidacy.telephone}</p>
